@@ -24,4 +24,8 @@ public class BookRepository {
     public Book getByISBN(String isbn) {
         return bookMap.get(isbn);
     }
+
+    public boolean hasISBN(String isbn) {
+        return bookMap.containsKey(isbn);
+    }
 }

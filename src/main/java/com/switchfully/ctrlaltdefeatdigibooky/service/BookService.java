@@ -3,6 +3,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.service;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
+import com.switchfully.ctrlaltdefeatdigibooky.exception.BookException;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class BookService {
     }
 
     public BookDetailDto getBookDetails(String isbn) {
+        if (!bookRepository.hasISBN(isbn)) throw new BookException("ISBN " + isbn + " doesn't exist.");
         return bookMapper.toDetailDto(bookRepository.getByISBN(isbn));
     }
 
