@@ -16,11 +16,11 @@ public class UserRepository {
    public Map<String, User> getUserRepository() {
       return userRepository;
    }
-   public User getUser(String email){
-      return userRepository.get(email);
+   public User getUser(String uniqueID){
+      return userRepository.get(uniqueID);
    }
    public User saveUser(User user){
-      return userRepository.put(user.getEmail(), user);
+      return userRepository.put(user.getUniqueID(), user);
    }
 
 }
