@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class UserMapper {
    public static User getUser(UserDtoCreateUser user) {
-      return new User(user.getUserRole(), user.getInss(), user.getEmail(),
+      return new User(user.getUserRole(), user.getUniqueID(), user.getEmail(),
               user.getFirstName(), user.getLastName(), user.getStreetName(),
               user.getStreetNumber(), user.getPostalCode(), user.getCity());
    }

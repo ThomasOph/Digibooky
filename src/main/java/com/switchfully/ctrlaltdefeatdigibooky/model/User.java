@@ -1,8 +1,12 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class User {
    private UserRole userRole;
-   private String inss;
+   private String uniqueID;
    private String email;
    private String firstName;
    private String lastName;
@@ -11,12 +15,13 @@ public class User {
    private String postalCode;
    private String city;
 
-   public User(final UserRole userRole, final String inss, final String email
+
+   public User(final UserRole userRole, final String uniqueID, final String email
            , final String firstName, final String lastName,
                final String streetName, final String streetNumber,
                final String postalCode, final String city) {
       this.userRole = userRole;
-      this.inss = inss;
+      this.uniqueID = uniqueID;
       this.email = email;
       this.firstName = firstName;
       this.lastName = lastName;
@@ -26,10 +31,11 @@ public class User {
       this.city = city;
    }
 
-   public User(final UserRole userRole, final String inss, final String email,
+   @Autowired
+   public User(final UserRole userRole, final String uniqueID, final String email,
                final String lastName, final String city) {
       this.userRole = userRole;
-      this.inss = inss;
+      this.uniqueID = uniqueID;
       this.email = email;
       this.lastName = lastName;
       this.city = city;
@@ -39,8 +45,8 @@ public class User {
       return userRole;
    }
 
-   public String getInss() {
-      return inss;
+   public String getUniqueID() {
+      return uniqueID;
    }
 
    public String getEmail() {

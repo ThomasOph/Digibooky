@@ -8,50 +8,84 @@ import com.switchfully.ctrlaltdefeatdigibooky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 public class UserService {
-   private final UserRepository userRepository;
-   private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-           Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
-                   Pattern.CASE_INSENSITIVE);
+    private final UserRepository userRepository;
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
+                    Pattern.CASE_INSENSITIVE);
 
-   @Autowired
-   public UserService(UserRepository userRepository) {
-      this.userRepository = userRepository;
-   }
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-   //CREATE
-   public UserDto saveUser(UserDtoCreateUser userCreateDto) {
-      if (!isValidEmail(userCreateDto.getEmail())) {
-         throw new IllegalArgumentException("Email is not valid");
-      }
-      if (isUniqueMail(userCreateDto.getEmail())) {
-         throw new IllegalArgumentException("Email already exists");
-      }
-      User user = UserMapper.getUser(userCreateDto);
+    //CREATE
+    public UserDto saveUser(UserDtoCreateUser userCreateDto) {
+        if (!isValidEmail(userCreateDto.getEmail())) {
+            throw new IllegalArgumentException("Email is not valid");
+        }
+        if (isUniqueMail(userCreateDto.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
 
-      userRepository.saveUser(user);
+        if (isUniqueInss(userCreateDto.getUniqueID())) {
+            throw new IllegalArgumentException("uniqueID already exists");
+        }
 
-      return UserMapper.getUserDto(user);
-   }
+        User user = UserMapper.getUser(userCreateDto);
 
-   private boolean isUniqueInss(final String inss) {
-      return true;
-   }
+        userRepository.saveUser(user);
 
-   private boolean isUniqueMail(final String email) {
-      return true;
-   }
+        return UserMapper.getUserDto(user);
+    }
 
-   private boolean isValidEmail(String email) {
-      Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
-      return matcher.find();
-   }
-   //READ ONE
-   //READ MANY
-   //UPDATE
-   //DELETE
+    private boolean isUniqueInss(final String uniqueID) {
+
+        return userRepository.getUserRepository().values()
+                .stream()
+                .noneMatch(user -> user.getUniqueID().equals(uniqueID));
+    }
+
+    private boolean isUniqueMail(final String email) {
+        return userRepository.getUserRepository().values()
+                .stream()
+                .noneMatch(user -> user.getEmail().equals(email));
+    }
+
+    private boolean isValidEmail(String email) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return matcher.find();
+    }
+
+    //READ ONE
+    public UserDto getUser(String email) {
+        return UserMapper.getUserDto(
+                userRepository.getUser(email)
+        );
+    }
+
+    //READ MANY
+    //TODO change mail to UniqueID!
+    public List<UserDto> getUsers(List<String> emails) {
+        List<UserDto> usersDto = new ArrayList<>();
+        for (String email : emails) {
+            User user = userRepository.getUserRepository().get(email);
+            if (user != null) {
+                usersDto.add(UserMapper.getUserDto(user));
+            }
+        }
+        return usersDto;
+    }
+    //UPDATE
+    public UserDto updateUser(UserDto userDto){
+        return null;
+    }
+    //DELETE
+
 }
