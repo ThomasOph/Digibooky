@@ -3,14 +3,15 @@ package com.switchfully.ctrlaltdefeatdigibooky.repository;
 import com.switchfully.ctrlaltdefeatdigibooky.model.User;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class UserRepository {
-   Map<String, User> userRepository;
+   private Map<String, User> userRepository;
 
-   public UserRepository(final Map<String, User> userRepository) {
-      this.userRepository = userRepository;
+   public UserRepository(){
+      userRepository = new HashMap<>();
    }
 
    public Map<String, User> getUserRepository() {

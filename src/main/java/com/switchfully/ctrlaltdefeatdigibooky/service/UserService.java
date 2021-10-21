@@ -58,12 +58,34 @@ public class UserService {
                 .noneMatch(user -> user.getEmail().equals(email));
     }
 
-   private boolean isValidEmail(String email) {
-      Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
-      return matcher.find();
-   }
-   //READ ONE
-   //READ MANY
-   //UPDATE
-   //DELETE
+    private boolean isValidEmail(String email) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return matcher.find();
+    }
+
+    //READ ONE
+    public UserDto getUser(String email) {
+        return UserMapper.getUserDto(
+                userRepository.getUser(email)
+        );
+    }
+
+    //READ MANY
+    //TODO change mail to UniqueID!
+    public List<UserDto> getUsers(List<String> emails) {
+        List<UserDto> usersDto = new ArrayList<>();
+        for (String email : emails) {
+            User user = userRepository.getUserRepository().get(email);
+            if (user != null) {
+                usersDto.add(UserMapper.getUserDto(user));
+            }
+        }
+        return usersDto;
+    }
+    //UPDATE
+    public UserDto updateUser(UserDto userDto){
+        return null;
+    }
+    //DELETE
+
 }
