@@ -1,12 +1,14 @@
-package com.switchfully.ctrlaltdefeatdigibooky.model;
+package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
-public class Book {
+import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
+
+public class BookDto {
     private final String isbn;
     private final String title;
     private final Author author;
     private final String summary;
 
-    public Book(String isbn, String title, Author author, String summary) {
+    public BookDto(String isbn, String title, Author author, String summary) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
