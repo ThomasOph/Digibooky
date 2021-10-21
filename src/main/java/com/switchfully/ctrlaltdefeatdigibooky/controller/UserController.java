@@ -20,6 +20,8 @@ public class UserController {
         this.userService = userService;
     }
 
+
+    //TODO ADMIN Verification
     //GET ONE
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -34,6 +36,7 @@ public class UserController {
         return userService.getUsers(uuid);
     }
 
+    //TODO ADMIN Verification when creating librarian or admin
     //POST
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -41,6 +44,7 @@ public class UserController {
         return userService.saveUser(userDto);
     }
 
+    //TODO ADMIN Verification
     //UPDATE
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
     public UserDto updateUser(@PathVariable("id") String id, @RequestBody UserDtoCreateUser userDto) {
@@ -51,6 +55,7 @@ public class UserController {
         return userService.updateUser(userDto);
     }
 
+    //TODO ADMIN Verification
     //DELETE
     @DeleteMapping(path = "/{id}")
     public void deleteUser(@PathVariable("id") String id) {
