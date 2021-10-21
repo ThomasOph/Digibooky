@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "books")
@@ -32,6 +33,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public BookDetailDto getById(@PathVariable String isbn) {
         return bookService.getBookDetails(isbn);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getAll(@RequestParam String isbn) {
+        return bookService.findByISBN(isbn);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

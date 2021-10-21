@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -36,6 +37,13 @@ public class BookService {
     public BookDetailDto getBookDetails(String isbn) {
         if (!bookRepository.hasISBN(isbn)) throw new BookException("ISBN " + isbn + " doesn't exist.");
         return bookMapper.toDetailDto(bookRepository.getByISBN(isbn));
+    }
+
+    public List<BookDto> findByISBN(String isbn) {
+        return bookRepository.getAllBooks().stream()
+                .filter(book -> book.getIsbn().matches(isbn.replace("*", "(.*)")))
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     /*
