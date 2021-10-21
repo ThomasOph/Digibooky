@@ -4,9 +4,12 @@ import com.switchfully.ctrlaltdefeatdigibooky.dto.UserDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.UserDtoCreateUser;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.UserMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.User;
+import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -44,6 +47,36 @@ public class UserService {
         return UserMapper.getUserDto(user);
     }
 
+    //READ ONE
+    public UserDto getUser(String email) {
+        return UserMapper.getUserDto(
+                userRepository.getUser(email)
+        );
+    }
+
+    //READ MANY
+    public List<UserDto> getUsers(String uuid) {
+
+        //UUID validation
+        if (!isUUIDAdmin(uuid)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to see this.");
+        }
+
+        return UserMapper.getUserDtoList(userRepository.getUserRepository().values());
+    }
+
+    //UPDATE
+    public UserDto updateUser(UserDtoCreateUser userDto) {
+        deleteUser(userDto.getUniqueID());
+        UserDto user = saveUser(userDto);
+        return user;
+    }
+
+    //DELETE
+    public void deleteUser(String id) {
+        userRepository.getUserRepository().remove(id);
+    }
+
     private boolean isUniqueInss(final String uniqueID) {
 
         return userRepository.getUserRepository().values()
@@ -62,26 +95,17 @@ public class UserService {
         return matcher.find();
     }
 
-    //READ ONE
-    public UserDto getUser(String email) {
-        return UserMapper.getUserDto(
-                userRepository.getUser(email)
-        );
-    }
+    public boolean isUUIDAdmin(String uuid) {
 
-    //READ MANY
-    public List<UserDto> getUsers() {
-        return UserMapper.getUserDtoList(userRepository.getUserRepository().values());
-    }
-    //UPDATE
-    public UserDto updateUser(UserDtoCreateUser userDto){
-        deleteUser(userDto.getUniqueID());
-        UserDto user = saveUser(userDto);
-        return user;
-    }
-    //DELETE
-    public void deleteUser(String id){
-        userRepository.getUserRepository().remove(id);
-    }
+        if (uuid == null) {
+            return false;
+        }
 
+        for (User user : userRepository.getUserRepository().values()) {
+            if (user.getUniqueID().equals(uuid)) {
+                return user.getUserRole() == UserRole.ADMIN;
+            }
+        }
+        return false;
+    }
 }
