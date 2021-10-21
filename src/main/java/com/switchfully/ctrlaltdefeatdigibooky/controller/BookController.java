@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +26,8 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAll(@RequestParam String isbn) {
-        if (isbn != null) return bookService.findByISBN(isbn);
+    public List<BookDto> getAll(@RequestParam Optional<String> isbn) {
+        if (isbn.isPresent()) return bookService.findByISBN(isbn.get());
         return bookService.getAllBooks();
     }
 
