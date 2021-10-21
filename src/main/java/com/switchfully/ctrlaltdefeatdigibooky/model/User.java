@@ -1,5 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
+
 public class User {
    private UserRole userRole;
    private String uniqueID;

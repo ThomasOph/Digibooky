@@ -1,5 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.controller;
 
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,8 +36,12 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody BookDto bookDto) {
+    public void add(@RequestBody BookCreateDto bookDto) {
         bookService.addBook(bookDto);
     }
 
+    @ExceptionHandler
+    protected void exceptionHandler(Exception e, HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    }
 }
