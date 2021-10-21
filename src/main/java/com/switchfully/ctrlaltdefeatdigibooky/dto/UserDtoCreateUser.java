@@ -3,7 +3,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.dto;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 
 public class UserDtoCreateUser {
-    private final UserRole userRole;
+    private final String userRole;
     private final String uniqueID;
     private final String email;
     private final String firstName;
@@ -13,7 +13,7 @@ public class UserDtoCreateUser {
     private final String postalCode;
     private final String city;
 
-    public UserDtoCreateUser(final UserRole userRole, final String uniqueID,
+    public UserDtoCreateUser(final String userRole, final String uniqueID,
                              final String email,
                              final String firstName, final String lastName,
                              final String streetName, final String streetNumber,
@@ -31,7 +31,7 @@ public class UserDtoCreateUser {
 
 
     public UserRole getUserRole() {
-        return userRole;
+        return UserRole.valueOf(userRole);
     }
 
     public String getUniqueID() {
@@ -64,5 +64,20 @@ public class UserDtoCreateUser {
 
     public String getCity() {
         return city;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDtoCreateUser{" +
+                "userRole='" + userRole + '\'' +
+                ", uniqueID='" + uniqueID + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", streetName='" + streetName + '\'' +
+                ", streetNumber='" + streetNumber + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                '}';
     }
 }
