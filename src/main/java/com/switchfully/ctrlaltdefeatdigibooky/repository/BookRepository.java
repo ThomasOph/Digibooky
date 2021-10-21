@@ -21,5 +21,7 @@ public class BookRepository {
         return bookMap.values().stream().toList();
     }
 
-
+    public Book getByISBN(String isbn) {
+        return bookMap.get(isbn);
+    }
 }

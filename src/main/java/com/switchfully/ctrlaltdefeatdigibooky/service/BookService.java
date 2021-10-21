@@ -32,7 +32,7 @@ public class BookService {
     }
 
     public BookDetailDto getBookDetails(String isbn) {
-        return null;
+        return bookMapper.toDetailDto(bookRepository.getByISBN(isbn));
     }
 
     /*
