@@ -3,22 +3,23 @@ package com.switchfully.ctrlaltdefeatdigibooky.repository;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BookRepository {
-    private final List<Book> bookList;
+    private final Map<String, Book> bookMap;
 
     public BookRepository() {
-        this.bookList = new ArrayList<>();
+        this.bookMap = new HashMap<>();
     }
 
     public void addBook(Book book) {
-        bookList.add(book);
+        bookMap.put(book.getIsbn(), book);
     }
 
     public List<Book> getAllBooks() {
-        return bookList;
+        return bookMap.values().stream().toList();
     }
+
+
 }

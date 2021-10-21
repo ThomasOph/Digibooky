@@ -1,12 +1,15 @@
 package com.switchfully.ctrlaltdefeatdigibooky.service;
 
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookService {
@@ -26,6 +29,10 @@ public class BookService {
 
     public List<BookDto> getAllBooks() {
         return bookMapper.toDto(bookRepository.getAllBooks());
+    }
+
+    public BookDetailDto getBookDetails(String isbn) {
+        return null;
     }
 
     /*

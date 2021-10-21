@@ -1,5 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.controller;
 
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getAllBooks() {
         return bookService.getAllBooks();
+    }
+
+    @GetMapping(path = "/{isbn}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookDetailDto getById(@PathVariable String isbn) {
+        return bookService.getBookDetails(isbn);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
