@@ -23,5 +23,7 @@ public class UserRepository {
    public User saveUser(User user){
       return userRepository.put(user.getUniqueID(), user);
    }
+   /*public boolean removeUser(String id){
 
+   }*/
 }

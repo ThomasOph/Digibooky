@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(path = "/user")
 public class UserController {
@@ -25,6 +27,13 @@ public class UserController {
     public UserDto getUser(@PathVariable String id){
         return userService.getUser(id);
     }
+
+    //GET ALL
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDto> getUsers(){
+        return userService.getUsers();
+    }
     //POST
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,4 +46,9 @@ public class UserController {
         return null;
     }
     //DELETE
+    @DeleteMapping(path = "/{id}")
+    public void deleteUser(){
+//        userService.
+    }
+
 }

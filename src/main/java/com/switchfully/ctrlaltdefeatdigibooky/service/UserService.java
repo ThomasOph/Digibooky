@@ -71,21 +71,16 @@ public class UserService {
     }
 
     //READ MANY
-    //TODO change mail to UniqueID!
-    public List<UserDto> getUsers(List<String> emails) {
-        List<UserDto> usersDto = new ArrayList<>();
-        for (String email : emails) {
-            User user = userRepository.getUserRepository().get(email);
-            if (user != null) {
-                usersDto.add(UserMapper.getUserDto(user));
-            }
-        }
-        return usersDto;
+    public List<UserDto> getUsers() {
+        return UserMapper.getUserDtoList(userRepository.getUserRepository().values());
     }
     //UPDATE
     public UserDto updateUser(UserDto userDto){
         return null;
     }
     //DELETE
+    public void deleteUser(String id){
+
+    }
 
 }

@@ -1,11 +1,8 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public enum UserRole {
-   ADMIN("admin"), LIBRARIAN("librarian"), MEMBER("member");
-
-   private String name;
-
-   UserRole(String name) {
-      this.name = name;
-   }
+    ADMIN, LIBRARIAN, MEMBER;
 }
