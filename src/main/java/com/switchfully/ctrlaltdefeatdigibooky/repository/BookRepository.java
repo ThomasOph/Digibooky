@@ -5,21 +5,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BookRepository {
-    private final List<Book> repository;
+    private final List<Book> bookList;
 
     public BookRepository() {
-        this.repository = new ArrayList<>();
+        this.bookList = new ArrayList<>();
     }
 
     public void addBook(Book book) {
-        repository.add(book);
+        bookList.add(book);
     }
 
     public List<Book> getAllBooks() {
-        return repository;
+        return bookList;
     }
 }

@@ -2,7 +2,6 @@ package com.switchfully.ctrlaltdefeatdigibooky.service;
 
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
-import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,21 +11,21 @@ import java.util.List;
 @Service
 public class BookService {
 
-    private final BookRepository repository;
-    private final BookMapper mapper;
+    private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
     @Autowired
-    public BookService(BookRepository repository, BookMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
+    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+        this.bookRepository = bookRepository;
+        this.bookMapper = bookMapper;
     }
 
     public void addBook(BookDto newBookDto) {
-        repository.addBook(mapper.toBook(newBookDto));
+        bookRepository.addBook(bookMapper.toBook(newBookDto));
     }
 
     public List<BookDto> getAllBooks() {
-        return mapper.toDto(repository.getAllBooks());
+        return bookMapper.toDto(bookRepository.getAllBooks());
     }
 
     /*
