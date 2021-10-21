@@ -1,5 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.service;
 
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
@@ -24,9 +25,9 @@ class BookServiceTest {
         BookMapper mapper = new BookMapper();
         BookService service = new BookService(repository, mapper);
 
-        BookDto bookDto1 = mapper.toDto(book1);
-        BookDto bookDto2 = mapper.toDto(book2);
-        BookDto bookDto3 = mapper.toDto(book3);
+        BookCreateDto bookDto1 = mapper.toCreateDto(book1);
+        BookCreateDto bookDto2 = mapper.toCreateDto(book2);
+        BookCreateDto bookDto3 = mapper.toCreateDto(book3);
 
         service.addBook(bookDto1);
         service.addBook(bookDto2);

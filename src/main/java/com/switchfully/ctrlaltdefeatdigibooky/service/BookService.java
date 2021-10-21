@@ -1,5 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.service;
 
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
@@ -23,7 +24,7 @@ public class BookService {
         this.bookMapper = bookMapper;
     }
 
-    public void addBook(BookDto newBookDto) {
+    public void addBook(BookCreateDto newBookDto) {
         bookRepository.addBook(bookMapper.toBook(newBookDto));
     }
 

@@ -1,5 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.controller;
 
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
@@ -33,7 +34,7 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody BookDto bookDto) {
+    public void add(@RequestBody BookCreateDto bookDto) {
         bookService.addBook(bookDto);
     }
 
