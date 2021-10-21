@@ -25,7 +25,8 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAllBooks() {
+    public List<BookDto> getAll(@RequestParam String isbn) {
+        if (isbn != null) return bookService.findByISBN(isbn);
         return bookService.getAllBooks();
     }
 
@@ -33,12 +34,6 @@ public class BookController {
     @ResponseStatus(HttpStatus.OK)
     public BookDetailDto getById(@PathVariable String isbn) {
         return bookService.getBookDetails(isbn);
-    }
-
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAll(@RequestParam String isbn) {
-        return bookService.findByISBN(isbn);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
