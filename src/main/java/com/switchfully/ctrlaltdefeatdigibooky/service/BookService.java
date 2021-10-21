@@ -45,6 +45,12 @@ public class BookService {
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
     }
+    public List<BookDto> findByTitle(String title) {
+        return bookRepository.getAllBooks().stream()
+                .filter(book -> book.getTitle().matches(title.replace("*", "(.*)")))
+                .map(bookMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
     /*
     		List<String> strings = new ArrayList<>();

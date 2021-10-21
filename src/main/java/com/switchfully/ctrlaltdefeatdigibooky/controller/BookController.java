@@ -26,8 +26,9 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAll(@RequestParam Optional<String> isbn) {
+    public List<BookDto> getAll(@RequestParam Optional<String> isbn, @RequestParam Optional<String> title) {
         if (isbn.isPresent()) return bookService.findByISBN(isbn.get());
+        if (title.isPresent()) return bookService.findByTitle(title.get());
         return bookService.getAllBooks();
     }
 
