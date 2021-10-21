@@ -8,7 +8,6 @@ import com.switchfully.ctrlaltdefeatdigibooky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,11 +29,11 @@ public class UserService {
         if (!isValidEmail(userCreateDto.getEmail())) {
             throw new IllegalArgumentException("Email is not valid");
         }
-        if (isUniqueMail(userCreateDto.getEmail())) {
+        if (!isUniqueMail(userCreateDto.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        if (isUniqueInss(userCreateDto.getUniqueID())) {
+        if (!isUniqueInss(userCreateDto.getUniqueID())) {
             throw new IllegalArgumentException("uniqueID already exists");
         }
 
@@ -75,12 +74,14 @@ public class UserService {
         return UserMapper.getUserDtoList(userRepository.getUserRepository().values());
     }
     //UPDATE
-    public UserDto updateUser(UserDto userDto){
-        return null;
+    public UserDto updateUser(UserDtoCreateUser userDto){
+        deleteUser(userDto.getUniqueID());
+        UserDto user = saveUser(userDto);
+        return user;
     }
     //DELETE
     public void deleteUser(String id){
-
+        userRepository.getUserRepository().remove(id);
     }
 
 }
