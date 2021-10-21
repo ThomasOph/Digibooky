@@ -1,17 +1,9 @@
 package com.switchfully.ctrlaltdefeatdigibooky.repository;
 
-import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
-import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
-import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
-import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookRepositoryTest {
     
