@@ -1,9 +1,7 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class User {
    private UserRole userRole;
    private String uniqueID;
@@ -14,7 +12,6 @@ public class User {
    private String streetNumber;
    private String postalCode;
    private String city;
-
 
    public User(final UserRole userRole, final String uniqueID, final String email
            , final String firstName, final String lastName,
@@ -31,9 +28,8 @@ public class User {
       this.city = city;
    }
 
-   @Autowired
-   public User(final UserRole userRole, final String uniqueID, final String email,
-               final String lastName, final String city) {
+   public User( UserRole userRole, String uniqueID, String email,
+               String lastName, String city) {
       this.userRole = userRole;
       this.uniqueID = uniqueID;
       this.email = email;
