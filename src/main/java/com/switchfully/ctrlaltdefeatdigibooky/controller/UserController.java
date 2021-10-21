@@ -27,13 +27,12 @@ public class UserController {
         return userService.getUser(id);
     }
 
-    //GET ALL
+    //GET ALL (Informational)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getUsers() {
-        return userService.getUsers();
+    public List<UserDto> getUsers(@RequestParam(value = "uuid", required = false) String uuid) {
+        return userService.getUsers(uuid);
     }
-
 
     //POST
     @ResponseStatus(HttpStatus.CREATED)

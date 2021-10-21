@@ -14,7 +14,7 @@ public class UserRepository {
    public UserRepository(){
       userRepository = new HashMap<>();
       userRepository.put("TestID", new User(UserRole.MEMBER, "TestID", "Mail@mail.com", "Thomas", "Opheide", "Blah", "20", "9000", "Gent"));
-      userRepository.put("IkBenEenMongool", new User(UserRole.MEMBER, "TestID", "Mail@mail.com", "Wouter", "Www", "Blah", "20", "9000", "Gent"));
+      userRepository.put("TheAdmin", new User(UserRole.ADMIN, "TheAdmin", "Admin@mail.com", "Wouter", "Www", "Blah", "20", "9000", "Gent"));
 
    }
 
