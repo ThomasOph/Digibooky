@@ -1,6 +1,5 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
-import org.springframework.stereotype.Component;
 
 public class User {
    private UserRole userRole;

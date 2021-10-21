@@ -30,7 +30,7 @@ public class BookMapper {
     }
 
     public Book toBook(BookDto dto) {
-        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), "");
+        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor());
     }
 
     public Book toBook(BookDetailDto dto) {

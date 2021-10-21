@@ -4,13 +4,19 @@ public class Book {
     private final String isbn;
     private final String title;
     private final Author author;
-    private final String summary;
+    private String summary;
 
     public Book(String isbn, String title, Author author, String summary) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
+    }
+
+    public Book(String isbn, String title, Author author) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
     }
 
     public String getIsbn() {
