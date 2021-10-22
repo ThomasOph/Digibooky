@@ -27,7 +27,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    //CREATE
+    //TODO Need a refactor
     public UserDto saveUser(UserDtoCreateUser userCreateDto, String uuid) {
         if (!isValidEmail(userCreateDto.getEmail())) {
             throw new IllegalArgumentException("Email is not valid");
@@ -41,7 +41,7 @@ public class UserService {
         }
 
         if (userCreateDto.getUserRole() == UserRole.ADMIN || userCreateDto.getUserRole() == UserRole.LIBRARIAN) {
-            if (!isUUIDAdmin(uuid)) {
+            if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to do this.");
             }
         }
@@ -62,8 +62,7 @@ public class UserService {
     //READ MANY
     public List<UserDto> getUsers(String uuid) {
 
-        //UUID validation
-        if (!isUUIDAdmin(uuid)) {
+        if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to see this.");
         }
 
@@ -88,17 +87,17 @@ public class UserService {
         return matcher.find();
     }
 
-    public boolean isUUIDAdmin(String uuid) {
-
+    public boolean isUUIDUserRole(String uuid, UserRole role) {
         if (uuid == null) {
             return false;
         }
 
         for (User user : userRepository.getUserRepository().values()) {
             if (user.getUniqueID().equals(uuid)) {
-                return user.getUserRole() == UserRole.ADMIN;
+                return user.getUserRole() == role;
             }
         }
         return false;
     }
+
 }
