@@ -26,18 +26,6 @@ public class BookRepository {
         bookMap.put(book.getIsbn(), book);
     }
 
-    // public List<Book> getAllBooks() {
-    //     return bookMap.values().stream().filter(Book::isActive).toList();
-    // }
-    //
-    // public Book getByISBN(String isbn) {
-    //     return bookMap.get(isbn);
-    // }
-    //
-    // public boolean hasISBN(String isbn) {
-    //     return bookMap.containsKey(isbn);
-    // }
-
     public void deleteBook(String isbn) {
         bookMap.get(isbn).setActive(false);
     }
