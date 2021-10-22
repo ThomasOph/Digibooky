@@ -1,3 +1,5 @@
 package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
-public record FineDto(String userId, String amount) {}
+import com.switchfully.ctrlaltdefeatdigibooky.model.FineType;
+
+public record FineDto(FineType fineType, String userId, String amount) {}
