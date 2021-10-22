@@ -3,6 +3,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.controller;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
+import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +23,12 @@ public class BookController {
         this.bookService = bookService;
     }
 
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAll(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title, @RequestParam(required = false) String author) {
+    public List<BookDto> getAll(@RequestParam(required = false) String isbn,
+                                @RequestParam(required = false) String title,
+                                @RequestParam(required = false) String author) {
         if (isbn != null) return bookService.getBooksByISBN(isbn);
         if (title != null) return bookService.getBooksByTitle(title);
         if (author != null) return bookService.getBooksByAuthor(author);
@@ -32,7 +36,8 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @GetMapping(path = "/{isbn}")
+    // show details of book
+    @GetMapping(path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public BookDetailDto getById(@PathVariable String isbn) {
         return bookService.getBookDetails(isbn);
@@ -44,9 +49,18 @@ public class BookController {
         bookService.addBook(bookDto);
     }
 
-    @DeleteMapping(path = "/{isbn}")
+    @DeleteMapping(path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("isbn") String isbn) {
         bookService.deleteBook(isbn);
+    }
+
+
+    //    Update an existing professor (an id is provided) with a new set of data.
+    @PutMapping(consumes = "application/json", path = "/{isbn}", produces = "application/json")
+    @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
+    public BookDto updateBookWithIsbn(@RequestBody Book book,
+                                          @PathVariable("isbn") String id) {
+        return bookService.updateBookInfo(book, id);
     }
 }

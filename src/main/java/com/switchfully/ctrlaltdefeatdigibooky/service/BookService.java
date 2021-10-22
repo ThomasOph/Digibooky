@@ -86,4 +86,9 @@ public class BookService {
     private String searchByWildCardsWithStar(String input) {
         return "(?i).*" + input.replace("*", "(.*)") + ".*";
     }
+
+
+    public BookDto updateBookInfo(Book book, String id) {
+        return null;
+    }
 }
