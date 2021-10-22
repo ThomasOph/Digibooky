@@ -35,11 +35,9 @@ public class UserService implements UserUtils {
         if (!isUniqueMail(userCreateDto.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-
         if (!isUniqueInss(userCreateDto.getUniqueID())) {
             throw new IllegalArgumentException("uniqueID already exists");
         }
-
         if (userCreateDto.getUserRole() == UserRole.ADMIN || userCreateDto.getUserRole() == UserRole.LIBRARIAN) {
             if (isUUIDUserRole(uuid, UserRole.ADMIN)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to do this.");
@@ -88,7 +86,7 @@ public class UserService implements UserUtils {
     }
 
     public boolean isUUIDUserRole(String uuid, UserRole role) {
-        if (uuid == null) {
+        if (uuid == null || role == null) {
             return true;
         }
 
