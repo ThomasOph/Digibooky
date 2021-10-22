@@ -23,7 +23,7 @@ public class BookService {
 
     @Autowired
     public BookService(BookRepository bookRepository,
-                       UserService userService ) {
+                       UserService userService) {
         this.bookRepository = bookRepository;
         this.userService = userService;
     }
@@ -60,8 +60,8 @@ public class BookService {
                 .filter(Book::isActive)
                 .filter(book ->
                         book.getAuthor().getFirstName().matches(searchByWildCardsWithStar(author)) ||
-                        book.getAuthor().getLastName().matches(searchByWildCardsWithStar(author)) ||
-                        book.getAuthor().getFullName().matches(searchByWildCardsWithStar(author))
+                                book.getAuthor().getLastName().matches(searchByWildCardsWithStar(author)) ||
+                                book.getAuthor().getFullName().matches(searchByWildCardsWithStar(author))
                 )
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
@@ -92,12 +92,11 @@ public class BookService {
         return "(?i).*" + input.replace("*", "(.*)") + ".*";
     }
 
-    public void updateBookInfo(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
+    public void updateBook(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to update books.");
 
-        Book bookToBeUpdated = bookRepository.getBookRepository().get(isbn);
-        if (bookToBeUpdated == null)
+        if (!bookRepository.getBookRepository().containsKey(isbn))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
 
         bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);

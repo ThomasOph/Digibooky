@@ -57,8 +57,9 @@ public class BookController {
     @PutMapping(consumes = "application/json", path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
     public void updateBookWithIsbn(@RequestBody BookCreateDto bookDto,
-                                      @PathVariable("isbn") String isbn, @RequestHeader(value = "uuid", required = false) String uuid) {
-        bookService.updateBookInfo(bookDto, isbn, uuid);
+                                   @PathVariable("isbn") String isbn,
+                                   @RequestHeader(value = "uuid", required = false) String uuid) {
+        bookService.updateBook(bookDto, isbn, uuid);
     }
 
 }
