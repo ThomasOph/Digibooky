@@ -68,4 +68,9 @@ public class BookService {
         input = input.replace("*", "(.*)");
         return input;
     }
+
+    public void deleteBook(String isbn) {
+        if (!bookRepository.hasISBN(isbn)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ISBN " + isbn + " doesn't exist.");
+        bookRepository.deleteBook(isbn);
+    }
 }

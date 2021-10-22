@@ -9,10 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "books")
@@ -43,6 +41,12 @@ public class BookController {
     @ResponseStatus(HttpStatus.CREATED)
     public void add(@RequestBody BookCreateDto bookDto) {
         bookService.addBook(bookDto);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@RequestHeader String isbn) {
+        bookService.deleteBook(isbn);
     }
 
     @ExceptionHandler

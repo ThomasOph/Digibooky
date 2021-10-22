@@ -36,4 +36,8 @@ public class BookRepository {
     public boolean hasISBN(String isbn) {
         return bookMap.containsKey(isbn);
     }
+
+    public void deleteBook(String isbn) {
+        bookMap.remove(isbn);
+    }
 }
