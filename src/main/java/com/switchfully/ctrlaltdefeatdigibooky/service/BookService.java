@@ -5,6 +5,7 @@ import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
+import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final UserUtils userService;
+    private final UserService userService;
 
     @Autowired
     public BookService(BookRepository bookRepository,
@@ -27,8 +28,10 @@ public class BookService {
         this.userService = userService;
     }
 
-    public void addBook(BookCreateDto newBookDto) {
-        // TODO:: Only librarian should be able to add a book
+    public void addBook(BookCreateDto newBookDto, String uuid) {
+        if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to add books.");
+
         bookRepository.addBook(BookMapper.toBook(newBookDto));
     }
 
@@ -73,8 +76,10 @@ public class BookService {
         return BookMapper.toDetailDto(book);
     }
 
-    public void deleteBook(String isbn) {
-        // TODO:: Only librarian should be able to delete a book
+    public void deleteBook(String isbn, String uuid) {
+        if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to delete books.");
+
         Book book = bookRepository.getBookRepository().get(isbn);
         if (book == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
@@ -85,5 +90,16 @@ public class BookService {
 
     private String searchByWildCardsWithStar(String input) {
         return "(?i).*" + input.replace("*", "(.*)") + ".*";
+    }
+
+    public void updateBookInfo(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
+        if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to update books.");
+
+        Book bookToBeUpdated = bookRepository.getBookRepository().get(isbn);
+        if (bookToBeUpdated == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
+
+        bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);
     }
 }

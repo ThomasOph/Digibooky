@@ -29,4 +29,11 @@ public class BookRepository {
     public void deleteBook(String isbn) {
         bookMap.get(isbn).setActive(false);
     }
+
+    public void updateBook(Book updatedBook, String isbn) {
+
+        bookMap.get(isbn).setTitle(updatedBook.getTitle());
+        bookMap.get(isbn).setAuthor(updatedBook.getAuthor());
+        bookMap.get(isbn).setSummary(updatedBook.getSummary());
+    }
 }

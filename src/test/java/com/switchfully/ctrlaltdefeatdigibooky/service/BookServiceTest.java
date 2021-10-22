@@ -30,9 +30,9 @@ class BookServiceTest {
         BookCreateDto bookDto2 = mapper.toCreateDto(book2);
         BookCreateDto bookDto3 = mapper.toCreateDto(book3);
 
-        service.addBook(bookDto1);
-        service.addBook(bookDto2);
-        service.addBook(bookDto3);
+        service.addBook(bookDto1, "TheLibrarian");
+        service.addBook(bookDto2, "TheLibrarian");
+        service.addBook(bookDto3, "TheLibrarian");
 
         Assertions.assertNotNull(service.getAllBooks());
     }
