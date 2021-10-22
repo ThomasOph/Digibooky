@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final IsUuidUserRole userService;
+    private final UserUtils userService;
 
     @Autowired
     public BookService(BookRepository bookRepository,
