@@ -2,15 +2,15 @@ package com.switchfully.ctrlaltdefeatdigibooky.model;
 
 
 public class User {
-   private UserRole userRole;
-   private String uniqueID;
-   private String email;
+   private final UserRole userRole;
+   private final String uniqueID;
+   private final String email;
    private String firstName;
-   private String lastName;
+   private final String lastName;
    private String streetName;
    private String streetNumber;
    private String postalCode;
-   private String city;
+   private final String city;
 
    public User(final UserRole userRole, final String uniqueID, final String email
            , final String firstName, final String lastName,
