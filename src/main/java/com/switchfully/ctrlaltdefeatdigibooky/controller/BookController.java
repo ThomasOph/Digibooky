@@ -56,7 +56,6 @@ public class BookController {
     }
 
 
-    //    Update an existing professor (an id is provided) with a new set of data.
     @PutMapping(consumes = "application/json", path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
     public BookDto updateBookWithIsbn(@RequestBody Book book,
