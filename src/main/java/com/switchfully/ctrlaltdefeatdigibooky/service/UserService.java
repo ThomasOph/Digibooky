@@ -53,9 +53,9 @@ public class UserService implements UserUtils {
     }
 
     //READ ONE
-    public UserDto getUser(String email) {
+    public UserDto getUser(String uuid) {
         return userMapper.getUserDto(
-                userRepository.getUser(email)
+                userRepository.getUser(uuid)
         );
     }
 
@@ -93,5 +93,4 @@ public class UserService implements UserUtils {
         }
         return userRepository.getUserRepository().get(uuid).getUserRole() == role;
     }
-
 }
