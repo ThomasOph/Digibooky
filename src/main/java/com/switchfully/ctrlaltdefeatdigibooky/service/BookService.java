@@ -92,8 +92,14 @@ public class BookService {
         return "(?i).*" + input.replace("*", "(.*)") + ".*";
     }
 
+    public void updateBookInfo(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
+        if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to update books.");
 
-    public BookDto updateBookInfo(Book book, String id) {
-        return null;
+        Book bookToBeUpdated = bookRepository.getBookRepository().get(isbn);
+        if (bookToBeUpdated == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
+
+        bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);
     }
 }

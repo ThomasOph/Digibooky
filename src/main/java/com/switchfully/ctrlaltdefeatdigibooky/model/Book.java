@@ -1,10 +1,10 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
 public class Book {
-    private final String isbn;
-    private final String title;
-    private final Author author;
-    private final String summary;
+    private String isbn;
+    private String title;
+    private Author author;
+    private String summary;
     private boolean isActive;
 
     public Book(String isbn, String title, Author author, String summary) {
@@ -41,5 +41,17 @@ public class Book {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 }
