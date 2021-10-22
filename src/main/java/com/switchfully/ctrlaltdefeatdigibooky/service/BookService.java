@@ -4,6 +4,7 @@ import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
+import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,16 +30,20 @@ public class BookService {
     }
 
     public List<BookDto> getAllBooks() {
-        return BookMapper.toDto(bookRepository.getAllBooks());
+        return BookMapper.toDto(bookRepository.getBookRepository().values().stream().filter(Book::isActive).collect(Collectors.toList()));
     }
 
     public BookDetailDto getBookDetails(String isbn) {
-        if (!bookRepository.hasISBN(isbn)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ISBN " + isbn + " doesn't exist.");
-        return BookMapper.toDetailDto(bookRepository.getByISBN(isbn));
+        Book book = bookRepository.getBookRepository().get(isbn);
+        if (book == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
+        if (!book.isActive())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was deleted.");
+        return BookMapper.toDetailDto(book);
     }
 
     public List<BookDto> findByISBN(String isbn) {
-        return bookRepository.getAllBooks().stream()
+        return bookRepository.getBookRepository().values().stream()
                 .filter(book -> book.getIsbn().matches(searchByWildCardsWithStar(isbn)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
@@ -47,7 +52,7 @@ public class BookService {
     public List<BookDto> findByTitle(String title) {
         String titleToBeFound = title.toLowerCase(Locale.ROOT);
 
-        return bookRepository.getAllBooks().stream()
+        return bookRepository.getBookRepository().values().stream()
                 .filter(book -> book.getTitle().toLowerCase(Locale.ROOT).matches(searchByWildCardsWithStar(titleToBeFound)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
@@ -56,7 +61,7 @@ public class BookService {
     public List<BookDto> findByAuthor(String author) {
         String authorToBeFound = author.toLowerCase(Locale.ROOT);
 
-        return bookRepository.getAllBooks().stream()
+        return bookRepository.getBookRepository().values().stream()
                 .filter(book ->
                         book.getAuthor().getFirstName().toLowerCase(Locale.ROOT).matches(searchByWildCardsWithStar(authorToBeFound)) ||
                         book.getAuthor().getLastName().toLowerCase(Locale.ROOT).matches(searchByWildCardsWithStar(authorToBeFound))
@@ -73,7 +78,8 @@ public class BookService {
     }
 
     public void deleteBook(String isbn) {
-        if (!bookRepository.hasISBN(isbn)) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ISBN " + isbn + " doesn't exist.");
+        if (!bookRepository.getBookRepository().containsKey(isbn))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         bookRepository.deleteBook(isbn);
     }
 }

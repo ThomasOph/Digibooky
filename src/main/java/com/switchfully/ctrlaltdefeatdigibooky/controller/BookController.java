@@ -49,10 +49,4 @@ public class BookController {
     public void delete(@PathVariable("isbn") String isbn) {
         bookService.deleteBook(isbn);
     }
-
-    @ExceptionHandler
-    protected void exceptionHandler(Exception e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
-    }
-
 }
