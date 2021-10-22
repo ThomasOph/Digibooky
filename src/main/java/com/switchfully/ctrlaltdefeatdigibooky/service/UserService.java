@@ -41,7 +41,7 @@ public class UserService implements UserUtils {
             throw new IllegalArgumentException("uniqueID already exists");
         }
         if (userCreateDto.getUserRole() == UserRole.ADMIN || userCreateDto.getUserRole() == UserRole.LIBRARIAN) {
-            if (isUUIDUserRole(uuid, UserRole.ADMIN)) {
+            if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to do this.");
             }
         }
@@ -62,7 +62,7 @@ public class UserService implements UserUtils {
     //READ MANY
     public List<UserDto> getUsers(String uuid) {
 
-        if (isUUIDUserRole(uuid, UserRole.ADMIN)) {
+        if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to see this.");
         }
 
@@ -88,7 +88,7 @@ public class UserService implements UserUtils {
     }
 
     public boolean isUUIDUserRole(String uuid, UserRole role) {
-        if (uuid == null || role == null) {
+        if (uuid == null) {
             return false;
         }
         return userRepository.getUserRepository().get(uuid).getUserRole() == role;
