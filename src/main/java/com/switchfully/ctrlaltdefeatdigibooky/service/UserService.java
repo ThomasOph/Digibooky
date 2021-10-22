@@ -18,13 +18,15 @@ import java.util.regex.Pattern;
 @Service
 public class UserService implements UserUtils {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
                     Pattern.CASE_INSENSITIVE);
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     //TODO Need a refactor
@@ -44,15 +46,15 @@ public class UserService implements UserUtils {
             }
         }
 
-        User user = UserMapper.getUser(userCreateDto);
+        User user = userMapper.getUser(userCreateDto);
         userRepository.saveUser(user);
 
-        return UserMapper.getUserDto(user);
+        return userMapper.getUserDto(user);
     }
 
     //READ ONE
     public UserDto getUser(String email) {
-        return UserMapper.getUserDto(
+        return userMapper.getUserDto(
                 userRepository.getUser(email)
         );
     }
@@ -64,7 +66,7 @@ public class UserService implements UserUtils {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to see this.");
         }
 
-        return UserMapper.getUserDtoList(userRepository.getUserRepository().values());
+        return userMapper.getUserDtoList(userRepository.getUserRepository().values());
     }
 
     private boolean isUniqueInss(final String uniqueID) {
@@ -87,15 +89,9 @@ public class UserService implements UserUtils {
 
     public boolean isUUIDUserRole(String uuid, UserRole role) {
         if (uuid == null || role == null) {
-            return true;
+            return false;
         }
-
-        for (User user : userRepository.getUserRepository().values()) {
-            if (user.getUniqueID().equals(uuid)) {
-                return user.getUserRole() != role;
-            }
-        }
-        return true;
+        return userRepository.getUserRepository().get(uuid).getUserRole() == role;
     }
 
 }

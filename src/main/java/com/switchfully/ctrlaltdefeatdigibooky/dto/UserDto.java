@@ -11,12 +11,14 @@ public class UserDto {
    private final String streetNumber;
    private final String postalCode;
    private final String city;
+   private final String totalFines;
 
    public UserDto(final UserRole userRole,
                   final String email,
                   final String firstName, final String lastName,
                   final String streetName, final String streetNumber,
-                  final String postalCode, final String city) {
+                  final String postalCode, final String city,
+                  final String totalFines) {
       this.userRole = userRole;
       this.email = email;
       this.firstName = firstName;
@@ -25,8 +27,12 @@ public class UserDto {
       this.streetNumber = streetNumber;
       this.postalCode = postalCode;
       this.city = city;
+      this.totalFines = totalFines;
    }
 
+   public String getTotalFines() {
+      return totalFines;
+   }
 
    public UserRole getUserRole() {
       return userRole;
