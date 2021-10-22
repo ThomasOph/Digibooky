@@ -35,5 +35,11 @@ public class FineService {
 				  .toList();
 	}
 	//Calculate Fine
-
+	public double calculateFinesForUser(String id){
+		return fineRepository.getRepository()
+				  .stream()
+				  .filter(check -> check.userId().equals(id))
+				  .mapToDouble(Fine :: amount)
+				  .sum();
+	}
 }
