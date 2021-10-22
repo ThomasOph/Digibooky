@@ -25,9 +25,9 @@ public class BookController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getAll(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title, @RequestParam(required = false) String author) {
-        if (isbn != null) return bookService.findByISBN(isbn);
-        if (title != null) return bookService.findByTitle(title);
-        if (author != null) return bookService.findByAuthor(author);
+        if (isbn != null) return bookService.getBooksByISBN(isbn);
+        if (title != null) return bookService.getBooksByTitle(title);
+        if (author != null) return bookService.getBooksByAuthor(author);
 
         return bookService.getAllBooks();
     }
