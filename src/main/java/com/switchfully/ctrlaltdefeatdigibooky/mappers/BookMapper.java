@@ -13,31 +13,31 @@ import java.util.stream.Collectors;
 @Service
 public class BookMapper {
 
-    public List<BookDto> toDto(List<Book> bookList) {
-        return bookList.stream().map(this::toDto).collect(Collectors.toList());
+    public static List<BookDto> toDto(List<Book> bookList) {
+        return bookList.stream().map(BookMapper::toDto).collect(Collectors.toList());
     }
 
-    public BookDto toDto(Book book) {
+    public static BookDto toDto(Book book) {
         return new BookDto(book.getIsbn(), book.getTitle(), book.getAuthor());
     }
 
-    public BookDetailDto toDetailDto(Book book) {
+    public static BookDetailDto toDetailDto(Book book) {
         return new BookDetailDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary());
     }
 
-    public BookCreateDto toCreateDto(Book book) {
+    public static BookCreateDto toCreateDto(Book book) {
         return new BookCreateDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary());
     }
 
-    public Book toBook(BookDto dto) {
+    public static Book toBook(BookDto dto) {
         return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor());
     }
 
-    public Book toBook(BookDetailDto dto) {
+    public static Book toBook(BookDetailDto dto) {
         return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary());
     }
 
-    public Book toBook(BookCreateDto dto) {
+    public static Book toBook(BookCreateDto dto) {
         return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary());
     }
 }

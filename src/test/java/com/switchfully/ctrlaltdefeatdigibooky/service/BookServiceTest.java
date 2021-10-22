@@ -19,7 +19,7 @@ class BookServiceTest {
 
         BookRepository repository = new BookRepository();
         BookMapper mapper = new BookMapper();
-        BookService service = new BookService(repository, mapper);
+        BookService service = new BookService(repository);
 
         BookCreateDto bookDto1 = mapper.toCreateDto(book1);
         BookCreateDto bookDto2 = mapper.toCreateDto(book2);
