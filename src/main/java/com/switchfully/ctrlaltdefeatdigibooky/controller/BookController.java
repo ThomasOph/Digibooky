@@ -45,14 +45,15 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody BookCreateDto bookDto) {
-        bookService.addBook(bookDto);
+    public void add(@RequestBody BookCreateDto bookDto, @RequestHeader(value = "uuid", required = false) String uuid) {
+        bookService.addBook(bookDto, uuid);
     }
 
     @DeleteMapping(path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable("isbn") String isbn) {
-        bookService.deleteBook(isbn);
+    public void delete(@PathVariable("isbn") String isbn,
+                       @RequestHeader(value = "uuid", required = false) String uuid) {
+        bookService.deleteBook(isbn, uuid);
     }
 
 
