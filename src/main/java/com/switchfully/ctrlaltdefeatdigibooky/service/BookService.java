@@ -38,14 +38,21 @@ public class BookService {
 
     public List<BookDto> findByISBN(String isbn) {
         return bookRepository.getAllBooks().stream()
-                .filter(book -> book.getIsbn().matches(isbn.replace("*", "(.*)")))
+                .filter(book -> book.getIsbn().matches(searchByWildCardsWithStar(isbn)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
     }
+
     public List<BookDto> findByTitle(String title) {
         return bookRepository.getAllBooks().stream()
-                .filter(book -> book.getTitle().matches(title.replace("*", "(.*)")))
+                .filter(book -> book.getTitle().matches(searchByWildCardsWithStar(title)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    private String searchByWildCardsWithStar(String input) {
+        if (!input.startsWith("*")) input = "*" + input;
+        if (!input.endsWith("*")) input += "*";
+        return input.replace("*", "(.*)");
     }
 }
