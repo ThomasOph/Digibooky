@@ -12,7 +12,6 @@ public class BookRepository {
 
     public BookRepository() {
         this.bookMap = new HashMap<>();
-        // TODO: DELETE DUMMY DATA
         addBook(new Book("ABCDEF", "The joys of Java", new Author("John", "Doe"), "Summary 1"));
         addBook(new Book("D013FA", "Java Is Fun", new Author("Megan", "Fox"), "Summary 2"));
         addBook(new Book("PQW1AD", "Let's have some fun", new Author("Jane", "Doe"), "Summary 3"));
@@ -31,7 +30,6 @@ public class BookRepository {
     }
 
     public void updateBook(Book updatedBook, String isbn) {
-
         bookMap.get(isbn).setTitle(updatedBook.getTitle());
         bookMap.get(isbn).setAuthor(updatedBook.getAuthor());
         bookMap.get(isbn).setSummary(updatedBook.getSummary());
