@@ -38,6 +38,6 @@ public class BookRepository {
     }
 
     public void deleteBook(String isbn) {
-        bookMap.remove(isbn);
+        bookMap.get(isbn).setActive(false);
     }
 }
