@@ -19,7 +19,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
     @Autowired
-    public BookService(BookRepository bookRepository, BookMapper bookMapper) {
+    public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
@@ -50,9 +50,22 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    public List<BookDto> findByAuthor(String author) {
+        String authorToBeFound = author.toLowerCase(Locale.ROOT);
+
+        return bookRepository.getAllBooks().stream()
+                .filter(book ->
+                        book.getAuthor().getFirstName().toLowerCase(Locale.ROOT).matches(searchByWildCardsWithStar(authorToBeFound)) ||
+                        book.getAuthor().getLastName().toLowerCase(Locale.ROOT).matches(searchByWildCardsWithStar(authorToBeFound))
+                )
+                .map(BookMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     private String searchByWildCardsWithStar(String input) {
         if (!input.startsWith("*")) input = "*" + input;
         if (!input.endsWith("*")) input += "*";
-        return input.replace("*", "(.*)");
+        input = input.replace("*", "(.*)");
+        return input;
     }
 }
