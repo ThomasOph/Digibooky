@@ -16,7 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class UserService {
+public class UserService implements IsUuidUserRole{
     private final UserRepository userRepository;
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$",
@@ -41,7 +41,7 @@ public class UserService {
         }
 
         if (userCreateDto.getUserRole() == UserRole.ADMIN || userCreateDto.getUserRole() == UserRole.LIBRARIAN) {
-            if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
+            if (isUUIDUserRole(uuid, UserRole.ADMIN)) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to do this.");
             }
         }
@@ -62,7 +62,7 @@ public class UserService {
     //READ MANY
     public List<UserDto> getUsers(String uuid) {
 
-        if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
+        if (isUUIDUserRole(uuid, UserRole.ADMIN)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to see this.");
         }
 
@@ -89,15 +89,15 @@ public class UserService {
 
     public boolean isUUIDUserRole(String uuid, UserRole role) {
         if (uuid == null) {
-            return false;
+            return true;
         }
 
         for (User user : userRepository.getUserRepository().values()) {
             if (user.getUniqueID().equals(uuid)) {
-                return user.getUserRole() == role;
+                return user.getUserRole() != role;
             }
         }
-        return false;
+        return true;
     }
 
 }

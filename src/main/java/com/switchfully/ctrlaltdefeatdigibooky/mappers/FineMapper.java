@@ -2,7 +2,6 @@ package com.switchfully.ctrlaltdefeatdigibooky.mappers;
 
 import com.switchfully.ctrlaltdefeatdigibooky.dto.FineDto;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Fine;
-import com.switchfully.ctrlaltdefeatdigibooky.model.FineType;
 
 public class FineMapper {
 
@@ -11,7 +10,7 @@ public class FineMapper {
 				  Double.parseDouble(dto.amount()));
 	}
 	public static FineDto getDto(Fine fine){
-		return new FineDto(fine.type(), fine.userId(),
+		return new FineDto(fine.fineType(), fine.userId(),
 				  String.valueOf(fine.amount()));
 	}
 }

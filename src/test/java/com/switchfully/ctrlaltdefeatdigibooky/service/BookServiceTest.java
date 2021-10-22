@@ -6,6 +6,7 @@ import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
+import com.switchfully.ctrlaltdefeatdigibooky.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,8 @@ class BookServiceTest {
 
         BookRepository repository = new BookRepository();
         BookMapper mapper = new BookMapper();
-        BookService service = new BookService(repository);
+        BookService service = new BookService(repository,
+                new UserService(new UserRepository()));
 
         BookCreateDto bookDto1 = mapper.toCreateDto(book1);
         BookCreateDto bookDto2 = mapper.toCreateDto(book2);
