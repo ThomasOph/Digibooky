@@ -75,5 +75,4 @@ public class User {
    //TODO: Story 6A: out of scope: (Validate postal code and city)
    //TODO: REQUIRED: Validate the email using REGEX;
 
-
 }

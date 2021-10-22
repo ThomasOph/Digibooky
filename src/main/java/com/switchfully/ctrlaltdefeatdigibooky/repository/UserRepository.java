@@ -3,11 +3,12 @@ package com.switchfully.ctrlaltdefeatdigibooky.repository;
 import com.switchfully.ctrlaltdefeatdigibooky.model.User;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Repository
 public class UserRepository {
    private Map<String, User> userRepository;
 

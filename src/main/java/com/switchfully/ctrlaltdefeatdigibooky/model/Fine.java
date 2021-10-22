@@ -1,5 +1,3 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
-public class Fine {
-
-}
+public record Fine(FineType type, String userId, double amount) {}
