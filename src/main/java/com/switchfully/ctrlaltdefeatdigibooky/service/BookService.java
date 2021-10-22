@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,8 +45,10 @@ public class BookService {
     }
 
     public List<BookDto> findByTitle(String title) {
+        String titleToBeFound = title.toLowerCase(Locale.ROOT);
+
         return bookRepository.getAllBooks().stream()
-                .filter(book -> book.getTitle().matches(searchByWildCardsWithStar(title)))
+                .filter(book -> book.getTitle().toLowerCase(Locale.ROOT).matches(searchByWildCardsWithStar(titleToBeFound)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
     }

@@ -28,6 +28,7 @@ public class BookController {
         if (isbn != null) return bookService.findByISBN(isbn);
         if (title != null) return bookService.findByTitle(title);
         if (author != null) return bookService.findByAuthor(author);
+
         return bookService.getAllBooks();
     }
 
@@ -43,9 +44,9 @@ public class BookController {
         bookService.addBook(bookDto);
     }
 
-    @DeleteMapping
+    @DeleteMapping(path = "/{isbn}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@RequestHeader String isbn) {
+    public void delete(@PathVariable("isbn") String isbn) {
         bookService.deleteBook(isbn);
     }
 
@@ -53,4 +54,5 @@ public class BookController {
     protected void exceptionHandler(Exception e, HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
+
 }
