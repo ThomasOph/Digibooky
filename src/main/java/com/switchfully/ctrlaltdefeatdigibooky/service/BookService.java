@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +38,7 @@ public class BookService {
 
     public List<BookDto> getBooksByISBN(String isbn) {
         return bookRepository.getBookRepository().values().stream()
+                .filter(Book::isActive)
                 .filter(book -> book.getIsbn().matches(searchByWildCardsWithStar(isbn)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
@@ -46,6 +46,7 @@ public class BookService {
 
     public List<BookDto> getBooksByTitle(String title) {
         return bookRepository.getBookRepository().values().stream()
+                .filter(Book::isActive)
                 .filter(book -> book.getTitle().matches(searchByWildCardsWithStar(title)))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
@@ -53,6 +54,7 @@ public class BookService {
 
     public List<BookDto> getBooksByAuthor(String author) {
         return bookRepository.getBookRepository().values().stream()
+                .filter(Book::isActive)
                 .filter(book ->
                         book.getAuthor().getFirstName().matches(searchByWildCardsWithStar(author)) ||
                         book.getAuthor().getLastName().matches(searchByWildCardsWithStar(author)) ||
