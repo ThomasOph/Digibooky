@@ -21,44 +21,18 @@ public class UserController {
     }
 
 
-    //TODO ADMIN Verification
-    //GET ONE
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public UserDto getUser(@PathVariable("id") String id) {
-        return userService.getUser(id);
-    }
-
     //GET ALL (Informational)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getUsers(@RequestParam(value = "uuid", required = false) String uuid) {
+    public List<UserDto> getUsers(@RequestHeader(value = "Uuid", required = false) String uuid) {
         return userService.getUsers(uuid);
     }
 
-    //TODO ADMIN Verification when creating librarian or admin
     //POST
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserDto createUser(@RequestBody UserDtoCreateUser userDto) {
-        return userService.saveUser(userDto);
+    public UserDto createUser(@RequestBody UserDtoCreateUser userDto, @RequestHeader(value = "Uuid", required = false) String uuid) {
+        return userService.saveUser(userDto, uuid);
     }
 
-    //TODO ADMIN Verification
-    //UPDATE
-    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
-    public UserDto updateUser(@PathVariable("id") String id, @RequestBody UserDtoCreateUser userDto) {
-        if (!id.equals(userDto.getUniqueID())) {
-            throw new IllegalArgumentException("123 -> You suck");
-        }
-
-        return userService.updateUser(userDto);
-    }
-
-    //TODO ADMIN Verification
-    //DELETE
-    @DeleteMapping(path = "/{id}")
-    public void deleteUser(@PathVariable("id") String id) {
-        userService.deleteUser(id);
-    }
 }

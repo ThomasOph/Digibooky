@@ -28,7 +28,7 @@ public class UserService {
     }
 
     //CREATE
-    public UserDto saveUser(UserDtoCreateUser userCreateDto) {
+    public UserDto saveUser(UserDtoCreateUser userCreateDto, String uuid) {
         if (!isValidEmail(userCreateDto.getEmail())) {
             throw new IllegalArgumentException("Email is not valid");
         }
@@ -40,8 +40,13 @@ public class UserService {
             throw new IllegalArgumentException("uniqueID already exists");
         }
 
-        User user = UserMapper.getUser(userCreateDto);
+        if (userCreateDto.getUserRole() == UserRole.ADMIN || userCreateDto.getUserRole() == UserRole.LIBRARIAN) {
+            if (!isUUIDAdmin(uuid)) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to do this.");
+            }
+        }
 
+        User user = UserMapper.getUser(userCreateDto);
         userRepository.saveUser(user);
 
         return UserMapper.getUserDto(user);
@@ -63,18 +68,6 @@ public class UserService {
         }
 
         return UserMapper.getUserDtoList(userRepository.getUserRepository().values());
-    }
-
-    //UPDATE
-    public UserDto updateUser(UserDtoCreateUser userDto) {
-        deleteUser(userDto.getUniqueID());
-        UserDto user = saveUser(userDto);
-        return user;
-    }
-
-    //DELETE
-    public void deleteUser(String id) {
-        userRepository.getUserRepository().remove(id);
     }
 
     private boolean isUniqueInss(final String uniqueID) {
