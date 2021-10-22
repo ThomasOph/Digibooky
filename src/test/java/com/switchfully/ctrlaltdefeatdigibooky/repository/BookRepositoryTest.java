@@ -19,6 +19,6 @@ class BookRepositoryTest {
         repository.addBook(book2);
         repository.addBook(book3);
 
-        Assertions.assertNotNull(repository.getAllBooks());
+        Assertions.assertNotNull(repository.getBookRepository().values());
     }
 }

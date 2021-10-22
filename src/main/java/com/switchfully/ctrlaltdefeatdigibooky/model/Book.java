@@ -4,19 +4,19 @@ public class Book {
     private final String isbn;
     private final String title;
     private final Author author;
-    private String summary;
+    private final String summary;
+    private boolean isActive;
 
     public Book(String isbn, String title, Author author, String summary) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.isActive = true;
     }
 
     public Book(String isbn, String title, Author author) {
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
+        this(isbn, title, author, "");
     }
 
     public String getIsbn() {
@@ -33,5 +33,13 @@ public class Book {
 
     public String getSummary() {
         return summary;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

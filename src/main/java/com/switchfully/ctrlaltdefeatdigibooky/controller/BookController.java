@@ -9,10 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.Option;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "books")
@@ -26,9 +24,11 @@ public class BookController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getAll(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title) {
-        if (isbn != null) return bookService.findByISBN(isbn);
-        if (title != null) return bookService.findByTitle(title);
+    public List<BookDto> getAll(@RequestParam(required = false) String isbn, @RequestParam(required = false) String title, @RequestParam(required = false) String author) {
+        if (isbn != null) return bookService.getBooksByISBN(isbn);
+        if (title != null) return bookService.getBooksByTitle(title);
+        if (author != null) return bookService.getBooksByAuthor(author);
+
         return bookService.getAllBooks();
     }
 
@@ -44,8 +44,9 @@ public class BookController {
         bookService.addBook(bookDto);
     }
 
-    @ExceptionHandler
-    protected void exceptionHandler(Exception e, HttpServletResponse response) throws IOException {
-        response.sendError(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+    @DeleteMapping(path = "/{isbn}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable("isbn") String isbn) {
+        bookService.deleteBook(isbn);
     }
 }
