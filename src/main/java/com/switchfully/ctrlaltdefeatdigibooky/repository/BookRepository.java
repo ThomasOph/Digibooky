@@ -12,9 +12,9 @@ public class BookRepository {
 
     public BookRepository() {
         this.bookMap = new HashMap<>();
-        addBook(new Book("ABCDEF", "The joys of Java", new Author("John", "Doe"), "Summary 1"));
-        addBook(new Book("D013FA", "Java Is Fun", new Author("Megan", "Fox"), "Summary 2"));
-        addBook(new Book("PQW1AD", "Let's have some fun", new Author("Jane", "Doe"), "Summary 3"));
+        addBook(new Book("978 0 596 52068 7", "The joys of Java", new Author("John", "Doe"), "Summary 1"));
+        addBook(new Book("978 0 181 16541 7", "Java Is Fun", new Author("Megan", "Fox"), "Summary 2"));
+        addBook(new Book("979 0 856 45165 9", "Let's have some fun", new Author("Jane", "Doe"), "Summary 3"));
     }
 
     public Map<String, Book> getBookRepository() {

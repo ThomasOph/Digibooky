@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
 
+    private static final String ISBN_13_REGEX_PATTERN = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
     private final BookRepository bookRepository;
     private final UserService userService;
 
@@ -31,6 +32,12 @@ public class BookService {
     public void addBook(BookCreateDto newBookDto, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to add books.");
+
+        if (!isValidISBN(newBookDto.getIsbn()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, newBookDto.getIsbn() + " is not a valid ISBN number.");
+
+        if (bookRepository.getBookRepository().containsKey(newBookDto.getIsbn()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A book with ISBN number " + newBookDto.getIsbn() + " already exists.");
 
         bookRepository.addBook(BookMapper.toBook(newBookDto));
     }
@@ -85,11 +92,8 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         if (!book.isActive())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was already deleted.");
-        bookRepository.deleteBook(isbn);
-    }
 
-    private String searchByWildCardsWithStar(String input) {
-        return "(?i).*" + input.replace("*", "(.*)") + ".*";
+        bookRepository.deleteBook(isbn);
     }
 
     public void updateBook(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
@@ -100,5 +104,13 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
 
         bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);
+    }
+
+    private String searchByWildCardsWithStar(String input) {
+        return "(?i).*" + input.replace("*", "(.*)") + ".*";
+    }
+
+    private boolean isValidISBN(String isbn) {
+        return isbn.matches(ISBN_13_REGEX_PATTERN);
     }
 }
