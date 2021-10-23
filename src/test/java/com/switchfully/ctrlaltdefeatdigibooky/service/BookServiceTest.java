@@ -16,9 +16,9 @@ class BookServiceTest {
 
     @Test
     void addNewBookDto() {
-        Book book1 = new Book("isbn-1", "title 1", new Author("Christoph", "Parrez"), "summary 1");
-        Book book2 = new Book("isbn-2", "title 2", new Author("Christoph", "Parrez"), "summary 2");
-        Book book3 = new Book("isbn-3", "title 3", new Author("Christoph", "Parrez"), "summary 3");
+        Book book1 = new Book("979 0 596 52068 7", "title 1", new Author("Christoph", "Parrez"), "summary 1");
+        Book book2 = new Book("979 0 596 52068 7", "title 2", new Author("Christoph", "Parrez"), "summary 2");
+        Book book3 = new Book("979 0 596 52068 7", "title 3", new Author("Christoph", "Parrez"), "summary 3");
 
         BookRepository repository = new BookRepository();
         BookMapper mapper = new BookMapper();
