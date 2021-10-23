@@ -26,7 +26,6 @@ public class BookRepository {
             book.setCopiesOfBook(bookMap.get(book.getIsbn()).getCopiesOfBook() + 1);
 
         bookMap.put(book.getIsbn(), book);
-        System.out.println("copies for book " + book.getIsbn() + " = " + book.getCopiesOfBook());
     }
 
     public void deleteBook(String isbn) {
