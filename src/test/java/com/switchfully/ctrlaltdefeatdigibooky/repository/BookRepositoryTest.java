@@ -9,9 +9,9 @@ class BookRepositoryTest {
     
     @Test
     void addNewBook() {
-        Book book1 = new Book("isbn-1", "title 1", new Author("Christoph", "Parrez"), "summary 1");
-        Book book2 = new Book("isbn-2", "title 2", new Author("Christoph", "Parrez"), "summary 2");
-        Book book3 = new Book("isbn-3", "title 3", new Author("Christoph", "Parrez"), "summary 3");
+        Book book1 = new Book("isbn-1", "title 1", new Author("John", "Doe"), "summary 1");
+        Book book2 = new Book("isbn-2", "title 2", new Author("John", "Doe"), "summary 2");
+        Book book3 = new Book("isbn-3", "title 3", new Author("John", "Doe"), "summary 3");
 
         BookRepository repository = new BookRepository();
 

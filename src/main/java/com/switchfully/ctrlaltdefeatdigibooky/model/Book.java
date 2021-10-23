@@ -5,6 +5,7 @@ public class Book {
     private String title;
     private Author author;
     private String summary;
+    private int copiesOfBook;
     private boolean isActive;
 
     public Book(String isbn, String title, Author author, String summary) {
@@ -12,6 +13,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.copiesOfBook = 1;
         this.isActive = true;
     }
 
@@ -35,6 +37,10 @@ public class Book {
         return summary;
     }
 
+    public int getCopiesOfBook() {
+        return copiesOfBook;
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -49,6 +55,10 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public void setCopiesOfBook(int copiesOfBook) {
+        this.copiesOfBook = copiesOfBook;
     }
 
     public void setSummary(String summary) {

@@ -36,9 +36,6 @@ public class BookService {
         if (!isValidISBN(newBookDto.getIsbn()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, newBookDto.getIsbn() + " is not a valid ISBN number.");
 
-        if (bookRepository.getBookRepository().containsKey(newBookDto.getIsbn()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A book with ISBN number " + newBookDto.getIsbn() + " already exists.");
-
         bookRepository.addBook(BookMapper.toBook(newBookDto));
     }
 

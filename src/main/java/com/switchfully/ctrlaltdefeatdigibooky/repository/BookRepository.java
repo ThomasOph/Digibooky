@@ -22,7 +22,11 @@ public class BookRepository {
     }
 
     public void addBook(Book book) {
+        if (bookMap.containsKey(book.getIsbn()))
+            book.setCopiesOfBook(bookMap.get(book.getIsbn()).getCopiesOfBook() + 1);
+
         bookMap.put(book.getIsbn(), book);
+        System.out.println("copies for book " + book.getIsbn() + " = " + book.getCopiesOfBook());
     }
 
     public void deleteBook(String isbn) {
