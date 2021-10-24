@@ -1,5 +1,7 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Author {
     private final String firstName;
     private final String lastName;
@@ -17,5 +19,6 @@ public class Author {
         return lastName;
     }
 
+    @JsonIgnore
     public String getFullName() { return firstName + " " + lastName; }
 }
