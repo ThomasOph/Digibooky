@@ -78,6 +78,7 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         if (!book.isActive())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was deleted.");
+
         return BookMapper.toDetailDto(book);
     }
 

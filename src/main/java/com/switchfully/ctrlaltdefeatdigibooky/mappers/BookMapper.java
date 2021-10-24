@@ -20,7 +20,7 @@ public class BookMapper {
     }
 
     public static BookDetailDto toDetailDto(Book book) {
-        return new BookDetailDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary());
+        return new BookDetailDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), book.getCopiesOfBook());
     }
 
     public static BookCreateDto toCreateDto(Book book) {
