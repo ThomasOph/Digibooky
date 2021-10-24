@@ -24,10 +24,10 @@ public class BookMapper {
     }
 
     public static BookCreateDto toCreateDto(Book book) {
-        return new BookCreateDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), book.isActive());
+        return new BookCreateDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), book.getCopiesOfBook(), book.isActive());
     }
 
     public static Book toBook(BookCreateDto dto) {
-        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary(), dto.getActive());
+        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary(), dto.getCopies(), dto.getActive());
     }
 }

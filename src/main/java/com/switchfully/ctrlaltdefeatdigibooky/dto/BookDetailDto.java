@@ -7,9 +7,9 @@ public class BookDetailDto {
     private final String title;
     private final Author author;
     private final String summary;
-    private final int copiesOfBook;
+    private final Integer copiesOfBook;
 
-    public BookDetailDto(String isbn, String title, Author author, String summary, int copies) {
+    public BookDetailDto(String isbn, String title, Author author, String summary, Integer copies) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;

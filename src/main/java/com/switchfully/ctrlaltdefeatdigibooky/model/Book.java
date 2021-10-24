@@ -8,17 +8,17 @@ public class Book {
     private int copiesOfBook;
     private Boolean isActive;
 
-    public Book(String isbn, String title, Author author, String summary, Boolean isActive) {
+    public Book(String isbn, String title, Author author, String summary, Integer copies, Boolean isActive) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
-        this.copiesOfBook = 1;
+        this.copiesOfBook = copies == null ? 1 : copies;
         this.isActive = isActive == null || isActive;
     }
 
     public Book(String isbn, String title, Author author, String summary) {
-        this(isbn, title, author, "", true);
+        this(isbn, title, author, "", null, null);
     }
 
     public String getIsbn() {
