@@ -1,24 +1,24 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
 public class Book {
-    private String isbn;
+    private final String isbn;
     private String title;
     private Author author;
     private String summary;
     private int copiesOfBook;
-    private boolean isActive;
+    private Boolean isActive;
 
-    public Book(String isbn, String title, Author author, String summary) {
+    public Book(String isbn, String title, Author author, String summary, Boolean isActive) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
         this.copiesOfBook = 1;
-        this.isActive = true;
+        this.isActive = isActive == null || isActive;
     }
 
-    public Book(String isbn, String title, Author author) {
-        this(isbn, title, author, "");
+    public Book(String isbn, String title, Author author, String summary) {
+        this(isbn, title, author, "", true);
     }
 
     public String getIsbn() {
@@ -41,7 +41,7 @@ public class Book {
         return copiesOfBook;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return isActive;
     }
 

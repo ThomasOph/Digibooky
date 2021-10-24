@@ -7,7 +7,6 @@ import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -19,7 +18,6 @@ public class BookController {
     public BookController(BookService bookService) {
         this.bookService = bookService;
     }
-
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -33,7 +31,6 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    // show details of book
     @GetMapping(path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public BookDetailDto getById(@PathVariable String isbn) {
@@ -42,7 +39,8 @@ public class BookController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void add(@RequestBody BookCreateDto bookDto, @RequestHeader(value = "uuid", required = false) String uuid) {
+    public void add(@RequestBody BookCreateDto bookDto,
+                    @RequestHeader(value = "uuid", required = false) String uuid) {
         bookService.addBook(bookDto, uuid);
     }
 
@@ -53,9 +51,8 @@ public class BookController {
         bookService.deleteBook(isbn, uuid);
     }
 
-
     @PutMapping(consumes = "application/json", path = "/{isbn}", produces = "application/json")
-    @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
+    @ResponseStatus(HttpStatus.OK)
     public void updateBookWithIsbn(@RequestBody BookCreateDto bookDto,
                                    @PathVariable("isbn") String isbn,
                                    @RequestHeader(value = "uuid", required = false) String uuid) {

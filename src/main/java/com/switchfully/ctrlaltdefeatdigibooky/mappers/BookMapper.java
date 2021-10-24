@@ -5,7 +5,6 @@ import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,18 +24,10 @@ public class BookMapper {
     }
 
     public static BookCreateDto toCreateDto(Book book) {
-        return new BookCreateDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary());
-    }
-
-    public static Book toBook(BookDto dto) {
-        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor());
-    }
-
-    public static Book toBook(BookDetailDto dto) {
-        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary());
+        return new BookCreateDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), book.isActive());
     }
 
     public static Book toBook(BookCreateDto dto) {
-        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary());
+        return new Book(dto.getIsbn(), dto.getTitle(), dto.getAuthor(), dto.getSummary(), dto.getActive());
     }
 }

@@ -7,14 +7,14 @@ public class BookCreateDto {
     private final String title;
     private final Author author;
     private final String summary;
-    private final boolean bookIsActive;
+    private final Boolean active;
 
-    public BookCreateDto(String isbn, String title, Author author, String summary) {
+    public BookCreateDto(String isbn, String title, Author author, String summary, Boolean active) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
-        this.bookIsActive = true;
+        this.active = active;
     }
 
     public String getIsbn() {
@@ -33,7 +33,7 @@ public class BookCreateDto {
         return summary;
     }
 
-    public boolean isBookIsActive() {
-        return bookIsActive;
+    public Boolean getActive() {
+        return active;
     }
 }

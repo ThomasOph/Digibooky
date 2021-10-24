@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,10 @@ public class BookService {
 
     public void addBook(BookCreateDto newBookDto, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to add books.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to add books.");
+
+        if (isEmptyInput(newBookDto))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The ISBN, title and author's last name are required.");
 
         if (!isValidISBN(newBookDto.getIsbn()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, newBookDto.getIsbn() + " is not a valid ISBN number.");
@@ -62,10 +64,9 @@ public class BookService {
     public List<BookDto> getBooksByAuthor(String author) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
-                .filter(book ->
-                        book.getAuthor().getFirstName().matches(searchByWildCardsWithStar(author)) ||
-                                book.getAuthor().getLastName().matches(searchByWildCardsWithStar(author)) ||
-                                book.getAuthor().getFullName().matches(searchByWildCardsWithStar(author))
+                .filter(book -> book.getAuthor().getFirstName().matches(searchByWildCardsWithStar(author)) ||
+                        book.getAuthor().getLastName().matches(searchByWildCardsWithStar(author)) ||
+                        book.getAuthor().getFullName().matches(searchByWildCardsWithStar(author))
                 )
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
@@ -82,7 +83,7 @@ public class BookService {
 
     public void deleteBook(String isbn, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to delete books.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to delete books.");
 
         Book book = bookRepository.getBookRepository().get(isbn);
         if (book == null)
@@ -95,7 +96,7 @@ public class BookService {
 
     public void updateBook(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to update books.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update books.");
 
         if (!bookRepository.getBookRepository().containsKey(isbn))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
@@ -109,5 +110,14 @@ public class BookService {
 
     private boolean isValidISBN(String isbn) {
         return isbn.matches(ISBN_13_REGEX_PATTERN);
+    }
+
+    private boolean isEmptyInput(BookCreateDto bookDto) {
+        return bookDto.getIsbn() == null ||
+                bookDto.getIsbn().trim().isEmpty() ||
+                bookDto.getTitle() == null ||
+                bookDto.getTitle().trim().isEmpty() ||
+                bookDto.getAuthor().getLastName() == null ||
+                bookDto.getAuthor().getLastName().trim().isEmpty();
     }
 }

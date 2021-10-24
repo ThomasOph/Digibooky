@@ -36,5 +36,6 @@ public class BookRepository {
         bookMap.get(isbn).setTitle(updatedBook.getTitle());
         bookMap.get(isbn).setAuthor(updatedBook.getAuthor());
         bookMap.get(isbn).setSummary(updatedBook.getSummary());
+        bookMap.get(isbn).setActive(updatedBook.isActive());
     }
 }
