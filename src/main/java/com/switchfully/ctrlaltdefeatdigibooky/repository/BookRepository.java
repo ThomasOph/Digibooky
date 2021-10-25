@@ -16,6 +16,7 @@ public class BookRepository {
                 "John", "Doe"), "Summary 1"));
         addBook(new Book("978 0 181 16541 7", "Java Is Fun", new Author("Megan", "Fox"), "Summary 2"));
         addBook(new Book("979 0 856 45165 9", "Let's have some fun", new Author("Jane", "Doe"), "Summary 3"));
+        addBook(new Book("979 1 806 46165 3", "Nothing more than one", new Author("Logo", "Kim"), "Summary 4"));
     }
 
     public Map<String, Book> getBookRepository() {
