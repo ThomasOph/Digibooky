@@ -49,5 +49,4 @@ public class RentalController {
             required = false) String uuid) {
         return rentalService.getAllRentalsOverdue(uuid);
     }
-
 }
