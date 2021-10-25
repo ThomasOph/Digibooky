@@ -35,6 +35,15 @@ public class RentalController {
 		return rentalService.returnRental(rentalId);
 	}
 
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping(path = "rent/{isbn}", produces =
+			  MediaType.TEXT_PLAIN_VALUE)
+	public RentalDto getRentalInformation( @PathVariable("isbn") String isbn,
+	                                       @RequestHeader(value = "uuid",
+			                                         required = false) String uuid){
+		return rentalService.rent(isbn, uuid);
+	}
+
 	@GetMapping(path = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public List<RentalDto> getAllRentalsOverdue(@RequestHeader(value = "uuid",

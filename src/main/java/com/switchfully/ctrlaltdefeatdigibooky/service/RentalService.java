@@ -32,8 +32,8 @@ public class RentalService {
 	public RentalDto rent(String userId, String isbn){
 		if (userService.getUser(userId) == null) throw new UserNotFoundException();
 		if (bookService.getBookByISBN(isbn) == null) throw new BookNotFoundException();
-
 		if (!isStillInStock(isbn)) throw new BookNotFoundException();
+		
 		Rental renting = new Rental(userId,isbn);
 		rentalRepository.addRental(renting);
 
