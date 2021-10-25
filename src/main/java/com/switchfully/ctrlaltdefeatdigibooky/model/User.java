@@ -11,8 +11,8 @@ public class User {
     private String postalCode;
     private final String city;
 
-    public User(final UserRole userRole, final String uniqueID, final String email
-            , final String firstName, final String lastName,
+    public User(final UserRole userRole, final String uniqueID, final String email,
+                final String firstName, final String lastName,
                 final String streetName, final String streetNumber,
                 final String postalCode, final String city) {
         this.userRole = userRole;
@@ -75,7 +75,5 @@ public class User {
     public String toString() {
         return getFirstName() + " " + getLastName();
     }
-
-
 
 }

@@ -68,7 +68,7 @@ public class RentalService {
 
         String messageBookReturnDate =
                 isBookOverdue(toReturn.getDateRented()) ?
-                        "Your book is on time" : "This book is late";
+                        "This book is late" : "Your book is on time";
 
         rentalRepository.getRentals().remove(toReturn);
         return messageBookReturnDate;
