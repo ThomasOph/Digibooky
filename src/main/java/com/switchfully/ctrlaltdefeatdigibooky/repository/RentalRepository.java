@@ -14,9 +14,9 @@ public class RentalRepository {
 
 	public RentalRepository() {
 		this.rentals = new ArrayList<>();
-		rentals.add(new Rental("TestID","978 0 596 52068 7",
+		rentals.add(new Rental("TestID","979 0 856 45165 9",
 				  LocalDate.now().minusWeeks(3)));
-		rentals.add(new Rental("TheLibrarian","978 0 596 52068 7",
+		rentals.add(new Rental("TheLibrarian","978 0 181 16541 7",
 				  LocalDate.now().minusWeeks(4)));
 		rentals.add(new Rental("TheLibrarian","978 0 596 52068 7",
 				  LocalDate.now().minusWeeks(42)));
