@@ -49,4 +49,14 @@ public class Rental {
 	public int hashCode() {
 		return Objects.hash(rentalId);
 	}
+
+	@Override
+	public String toString() {
+		return "Rental{" +
+				"rentalId='" + rentalId + '\'' +
+				", userId='" + userId + '\'' +
+				", isbn='" + isbn + '\'' +
+				", dateRented=" + dateRented +
+				'}';
+	}
 }
