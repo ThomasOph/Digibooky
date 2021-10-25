@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public class RentalRepository {
-	private List<Rental> rentals;
+	private final List<Rental> rentals;
 
 	public RentalRepository() {
 		this.rentals = new ArrayList<>();

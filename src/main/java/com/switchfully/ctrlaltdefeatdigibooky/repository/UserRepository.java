@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Repository
 public class UserRepository {
-   private Map<String, User> userRepository;
+   private final Map<String, User> userRepository;
 
    public UserRepository(){
       userRepository = new HashMap<>();

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RentalMapper {
 	public RentalDto getRentalDto(Rental rental){
-		return new RentalDto(rental.getRentalId().toString(),
+		return new RentalDto(rental.getRentalId(),
 				  rental.getUserId()
 		,rental.getDateRented().toString(), rental.getIsbn());
 	}

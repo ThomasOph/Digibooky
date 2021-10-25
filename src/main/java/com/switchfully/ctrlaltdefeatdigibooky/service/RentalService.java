@@ -72,8 +72,9 @@ public class RentalService {
 
 	}
 
-	private boolean isBookOverdue(LocalDate bookDate){
-		return bookDate.plusWeeks(3).isAfter(LocalDate.now());
+	private boolean isBookOverdue(LocalDate rentalDate){
+		return rentalDate.plusWeeks(3)
+				  .isBefore(LocalDate.now());
 	}
 
 	public Rental getRentalById(String rentalId){
@@ -94,7 +95,7 @@ public class RentalService {
 
 		return rentalRepository.getRentals().stream()
 				  .filter(rental -> isBookOverdue(rental.getDateRented()))
-				  .map(rental -> rentalMapper.getRentalDto(rental))
+				  .map(rentalMapper :: getRentalDto)
 				  .toList();
 	}
 }

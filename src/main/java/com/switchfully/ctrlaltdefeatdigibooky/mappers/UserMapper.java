@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserMapper {
-   private FineService fineService;
+   private final FineService fineService;
    public UserMapper(FineService service) {
       fineService = service;
    }

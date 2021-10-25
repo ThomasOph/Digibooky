@@ -6,9 +6,9 @@ import java.util.UUID;
 
 public class Rental {
 	private final String rentalId;
-	private String userId;
-	private String isbn;
-	private LocalDate dateRented;
+	private final String userId;
+	private final String isbn;
+	private final LocalDate dateRented;
 
 	public Rental(String userId, String isbn) {
 		this(userId, isbn, LocalDate.now());
