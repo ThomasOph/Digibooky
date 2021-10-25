@@ -3,6 +3,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.service;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
+import com.switchfully.ctrlaltdefeatdigibooky.dto.BookUpdateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
@@ -142,7 +143,7 @@ public class BookService {
         bookRepository.addBook(BookMapper.toBook(newBookDto));
     }
 
-    public void updateBook(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
+    public void updateBook(BookUpdateDto bookDtoUpdated, String isbn, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN)) {
             logger.warn("You are not authorized to update books.");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update books.");
