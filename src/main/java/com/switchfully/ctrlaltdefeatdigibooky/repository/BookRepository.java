@@ -30,6 +30,7 @@ public class BookRepository {
 
     public void deleteBook(String isbn) {
         bookMap.get(isbn).setActive(false);
+        bookMap.get(isbn).setCopiesOfBook(0);
     }
 
     public void updateBook(Book updatedBook, String isbn) {

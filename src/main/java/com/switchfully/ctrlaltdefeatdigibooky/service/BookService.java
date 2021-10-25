@@ -28,19 +28,6 @@ public class BookService {
         this.userService = userService;
     }
 
-    public void addBook(BookCreateDto newBookDto, String uuid) {
-        if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to add books.");
-
-        if (isEmptyInput(newBookDto))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The ISBN, title and author's last name are required.");
-
-        if (!isValidISBN(newBookDto.getIsbn()))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, newBookDto.getIsbn() + " is not a valid ISBN number.");
-
-        bookRepository.addBook(BookMapper.toBook(newBookDto));
-    }
-
     public List<BookDto> getAllBooks() {
         return BookMapper.toDto(bookRepository.getBookRepository().values().stream().filter(Book::isActive).collect(Collectors.toList()));
     }
@@ -95,6 +82,19 @@ public class BookService {
         bookRepository.deleteBook(isbn);
     }
 
+    public void addBook(BookCreateDto newBookDto, String uuid) {
+        if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to add books.");
+
+        if (isMissingInput(newBookDto))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The ISBN, title and author's last name are required.");
+
+        if (!isValidISBN(newBookDto.getIsbn()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, newBookDto.getIsbn() + " is not a valid ISBN number.");
+
+        bookRepository.addBook(BookMapper.toBook(newBookDto));
+    }
+
     public void updateBook(BookCreateDto bookDtoUpdated, String isbn, String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update books.");
@@ -113,7 +113,7 @@ public class BookService {
         return isbn.matches(ISBN_13_REGEX_PATTERN);
     }
 
-    private boolean isEmptyInput(BookCreateDto bookDto) {
+    private boolean isMissingInput(BookCreateDto bookDto) {
         return bookDto.getIsbn() == null ||
                 bookDto.getIsbn().trim().isEmpty() ||
                 bookDto.getTitle() == null ||
