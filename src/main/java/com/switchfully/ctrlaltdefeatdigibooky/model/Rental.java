@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Rental {
-	private final UUID rentalId;
+	private final String rentalId;
 	private String userId;
 	private String isbn;
 	private LocalDate dateRented;
@@ -15,13 +15,13 @@ public class Rental {
 	}
 
 	public Rental(String userId, String isbn, LocalDate dateRented) {
-		this.rentalId = UUID.randomUUID();
+		this.rentalId = UUID.randomUUID().toString();
 		this.userId = userId;
 		this.isbn = isbn;
 		this.dateRented = dateRented;
 	}
 
-	public UUID getRentalId() {
+	public String getRentalId() {
 		return rentalId;
 	}
 
