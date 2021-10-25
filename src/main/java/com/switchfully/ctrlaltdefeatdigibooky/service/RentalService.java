@@ -4,10 +4,12 @@ import com.switchfully.ctrlaltdefeatdigibooky.dto.RentalDto;
 import com.switchfully.ctrlaltdefeatdigibooky.exceptions.BookNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.exceptions.UserNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.RentalMapper;
-import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Rental;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RentalService {
@@ -26,7 +28,7 @@ public class RentalService {
 
 	public RentalDto rent(String userId, String isbn){
 		if (userService.getUser(userId) == null) throw new UserNotFoundException();
-		if (bookService.getBooksByISBN(isbn).isEmpty()) throw new BookNotFoundException();
+		if (bookService.getBookByISBN(isbn).isEmpty()) throw new BookNotFoundException();
 
 		if (!isStillInStock(isbn)) throw new BookNotFoundException();
 		Rental renting = new Rental(userId,isbn);
@@ -45,5 +47,12 @@ public class RentalService {
 		return rentalRepository.getRentals().stream()
 				  .filter(rental -> rental.getIsbn().equals(isbn))
 				  .toList().size();
+	}
+
+	public List<String> getUsersRentingBook(String isbn){
+		return rentalRepository.getRentals().stream()
+				  .filter(rental -> rental.getIsbn().equals(isbn))
+				  .map(rental -> userService.getUserDetails(rental.getUserId()))
+				  .toList();
 	}
 }

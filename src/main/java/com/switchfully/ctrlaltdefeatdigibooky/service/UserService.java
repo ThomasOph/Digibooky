@@ -93,4 +93,8 @@ public class UserService implements UserUtils {
         }
         return userRepository.getUserRepository().get(uuid).getUserRole() == role;
     }
+
+    public String getUserDetails(String uuid){
+       return userRepository.getUser(uuid).toString();
+    }
 }

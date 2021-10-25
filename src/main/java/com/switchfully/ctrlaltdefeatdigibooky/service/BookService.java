@@ -29,7 +29,10 @@ public class BookService {
     }
 
     public List<BookDto> getAllBooks() {
-        return BookMapper.toDto(bookRepository.getBookRepository().values().stream().filter(Book::isActive).collect(Collectors.toList()));
+        return BookMapper.toDto(bookRepository.getBookRepository().values().
+                stream().
+                filter(Book::isActive)
+                .collect(Collectors.toList()));
     }
 
     public List<BookDto> getBooksByISBN(String isbn) {
