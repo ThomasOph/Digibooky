@@ -7,7 +7,9 @@ import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
+import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,12 +22,16 @@ public class BookService {
     private static final String ISBN_13_REGEX_PATTERN = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
     private final BookRepository bookRepository;
     private final UserService userService;
+    private final RentalService rentalService;
+
 
     @Autowired
     public BookService(BookRepository bookRepository,
-                       UserService userService) {
+                       UserService userService,
+                       @Lazy RentalService rentalService) {
         this.bookRepository = bookRepository;
         this.userService = userService;
+        this.rentalService = rentalService;
     }
 
     public List<BookDto> getAllBooks() {
@@ -73,7 +79,9 @@ public class BookService {
         if (!book.isActive())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was deleted.");
 
-        return BookMapper.toDetailDto(book);
+
+        return BookMapper.toDetailDto(book,
+                rentalService.getUsersRentingBook(isbn));
     }
 
     public void deleteBook(String isbn, String uuid) {

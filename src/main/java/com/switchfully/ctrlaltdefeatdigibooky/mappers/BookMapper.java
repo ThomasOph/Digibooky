@@ -19,8 +19,11 @@ public class BookMapper {
         return new BookDto(book.getIsbn(), book.getTitle(), book.getAuthor());
     }
 
-    public static BookDetailDto toDetailDto(Book book) {
-        return new BookDetailDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), book.getCopiesOfBook());
+    public static BookDetailDto toDetailDto(Book book,
+                                            List<String> usersRenting) {
+        return new BookDetailDto(book.getIsbn(), book.getTitle(),
+                book.getAuthor(), book.getSummary(), book.getCopiesOfBook(),
+                usersRenting);
     }
 
     public static BookCreateDto toCreateDto(Book book) {
