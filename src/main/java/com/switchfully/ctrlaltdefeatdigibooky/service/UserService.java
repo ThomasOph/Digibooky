@@ -2,6 +2,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.service;
 
 import com.switchfully.ctrlaltdefeatdigibooky.dto.UserDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.UserDtoCreateUser;
+import com.switchfully.ctrlaltdefeatdigibooky.exceptions.UserNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.UserMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.User;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
@@ -88,13 +89,19 @@ public class UserService implements UserUtils {
     }
 
     public boolean isUUIDUserRole(String uuid, UserRole role) {
-        if (uuid == null) {
+        if (uuid == null || role == null) {
             return false;
         }
-        return userRepository.getUserRepository().get(uuid).getUserRole() == role;
+
+        User user = userRepository.getUserRepository().get(uuid);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+
+        return user.getUserRole() == role;
     }
 
-    public String getUserDetails(String uuid){
-       return userRepository.getUser(uuid).toString();
+    public String getUserDetails(String uuid) {
+        return userRepository.getUser(uuid).toString();
     }
 }

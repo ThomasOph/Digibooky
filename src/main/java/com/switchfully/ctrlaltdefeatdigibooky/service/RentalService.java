@@ -69,7 +69,6 @@ public class RentalService {
 
 		rentalRepository.getRentals().remove(toReturn);
 		return messageBookReturnDate;
-
 	}
 
 	private boolean isBookOverdue(LocalDate rentalDate){
