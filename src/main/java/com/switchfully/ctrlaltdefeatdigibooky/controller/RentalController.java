@@ -36,11 +36,10 @@ public class RentalController {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping(path = "rent/{isbn}", produces =
+	@GetMapping(path = "rent/{isbn}", produces =
 			  MediaType.TEXT_PLAIN_VALUE)
 	public RentalDto getRentalInformation( @PathVariable("isbn") String isbn,
-	                                       @RequestHeader(value = "uuid",
-			                                         required = false) String uuid){
+	                                       @RequestHeader(value = "uuid") String uuid){
 		return rentalService.rent(uuid, isbn);
 	}
 
