@@ -6,16 +6,12 @@ import com.switchfully.ctrlaltdefeatdigibooky.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
-@RequestMapping(path = "/rentals")
+@RequestMapping(path = "rentals")
 @RestController
 public class RentalController {
 
@@ -25,6 +21,7 @@ public class RentalController {
 	public RentalController(RentalService rentalService) {
 		this.rentalService = rentalService;
 	}
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(path="/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<RentalDto> getRentalsFromMemberId(@PathVariable String memberId){
 		List<RentalDto> rentalsOfMember = rentalService.getRentalsFromMember(memberId);
@@ -32,7 +29,7 @@ public class RentalController {
 		return rentalsOfMember;
 	}
 
-
+	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(path = "return/{rentalId}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public String getRentalInformation(@PathVariable("rentalId") String rentalId){
 		return rentalService.returnRental(rentalId);

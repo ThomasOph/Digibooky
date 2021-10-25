@@ -61,13 +61,18 @@ public class RentalService {
 				  "library";
 
 		String messageBookReturnDate =
-				  toReturn.getDateRented().plusWeeks(3).isAfter(LocalDate.now()) ?
+				  isBookOverdue(toReturn.getDateRented()) ?
 						    "Your book is on time" : "This book is late";
 
 		rentalRepository.getRentals().remove(toReturn);
 		return messageBookReturnDate;
 
 	}
+
+	private boolean isBookOverdue(LocalDate bookDate){
+		return bookDate.plusWeeks(3).isAfter(LocalDate.now());
+	}
+
 	public Rental getRentalById(String rentalId){
 		return rentalRepository.getRentals().stream()
 				  .filter(rental -> rental.getRentalId().equals(rentalId))
@@ -75,8 +80,14 @@ public class RentalService {
 	}
 	public List<RentalDto> getRentalsFromMember(String userId){
 		return rentalRepository.getRentals().stream()
-				  .filter(member -> member.getRentalId().equals(userId))
+				  .filter(member -> member.getUserId().equals(userId))
 				  .map(rentalMapper :: getRentalDto)
+				  .toList();
+	}
+	public List<RentalDto> getAllRentalsOverdue(){
+		return rentalRepository.getRentals().stream()
+				  .filter(rental -> isBookOverdue(rental.getDateRented()))
+				  .map(rental -> rentalMapper.getRentalDto(rental))
 				  .toList();
 	}
 }
