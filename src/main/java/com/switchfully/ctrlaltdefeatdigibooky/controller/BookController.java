@@ -31,6 +31,7 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
+    //Book details
     @GetMapping(path = "/{isbn}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public BookDetailDto getById(@PathVariable String isbn) {

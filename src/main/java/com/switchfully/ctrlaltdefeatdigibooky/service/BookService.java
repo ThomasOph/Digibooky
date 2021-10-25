@@ -20,15 +20,12 @@ public class BookService {
     private static final String ISBN_13_REGEX_PATTERN = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
     private final BookRepository bookRepository;
     private final UserService userService;
-    private final RentalService rentalService;
 
     @Autowired
     public BookService(BookRepository bookRepository,
-                       UserService userService,
-                       RentalService rentalService) {
+                       UserService userService) {
         this.bookRepository = bookRepository;
         this.userService = userService;
-        this.rentalService = rentalService;
     }
 
     public List<BookDto> getAllBooks() {
@@ -75,8 +72,6 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         if (!book.isActive())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was deleted.");
-
-        // rentalService.get
 
         return BookMapper.toDetailDto(book);
     }

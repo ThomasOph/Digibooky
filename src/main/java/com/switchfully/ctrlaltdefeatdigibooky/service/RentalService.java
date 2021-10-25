@@ -8,7 +8,6 @@ import com.switchfully.ctrlaltdefeatdigibooky.model.Rental;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
