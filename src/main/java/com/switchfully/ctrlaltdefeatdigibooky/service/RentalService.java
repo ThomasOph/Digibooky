@@ -5,8 +5,11 @@ import com.switchfully.ctrlaltdefeatdigibooky.exceptions.BookNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.exceptions.UserNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.RentalMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Rental;
+import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -84,7 +87,11 @@ public class RentalService {
 				  .map(rentalMapper :: getRentalDto)
 				  .toList();
 	}
-	public List<RentalDto> getAllRentalsOverdue(){
+	public List<RentalDto> getAllRentalsOverdue(String uuid){
+		if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN))
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not" +
+					  " authorized!");
+
 		return rentalRepository.getRentals().stream()
 				  .filter(rental -> isBookOverdue(rental.getDateRented()))
 				  .map(rental -> rentalMapper.getRentalDto(rental))
