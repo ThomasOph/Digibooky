@@ -6,8 +6,8 @@ import java.util.UUID;
 public class Rental {
 	private final UUID rentalId;
 	private String userId;
-	private LocalDate dateRented;
 	private String isbn;
+	private LocalDate dateRented;
 
 	public Rental(String userId, String isbn) {
 		this.rentalId = UUID.randomUUID();

@@ -35,10 +35,6 @@ public class RentalService {
 		Rental renting = new Rental(userId,isbn);
 		rentalRepository.addRental(renting);
 
-		rentalRepository.addRental(new Rental("TestID",
-				  "978 0 596 52068 7"));
-		rentalRepository.addRental(new Rental("TheLibrarian","978 0 596 52068 7" ));
-		rentalRepository.addRental(new Rental("TheLibrarian","978 0 596 52068 7" ));
 		return rentalMapper.getRentalDto(renting);
 	}
 	private boolean isStillInStock(String isbn){
