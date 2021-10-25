@@ -44,7 +44,11 @@ public class BookService {
     }
 
     public Book getBookByISBN(String isbn) {
-        return bookRepository.getBookRepository().get(isbn);
+        return bookRepository.getBookRepository().values().stream()
+                .filter(Book::isActive)
+                .filter(book -> book.getIsbn().equals(isbn))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<BookDto> getBooksByISBN(String isbn) {
