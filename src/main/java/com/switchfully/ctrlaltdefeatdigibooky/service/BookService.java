@@ -105,6 +105,9 @@ public class BookService {
         if (!isValidISBN(newBookDto.getIsbn()))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, newBookDto.getIsbn() + " is not a valid ISBN number.");
 
+        if (newBookDto.getCopies() < 0)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The number of copies cannot be negative.");
+
         bookRepository.addBook(BookMapper.toBook(newBookDto));
     }
 
