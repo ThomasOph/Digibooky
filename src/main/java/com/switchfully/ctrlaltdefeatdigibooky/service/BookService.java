@@ -1,6 +1,5 @@
 package com.switchfully.ctrlaltdefeatdigibooky.service;
 
-import com.switchfully.ctrlaltdefeatdigibooky.DigibookyApplication;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDetailDto;
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
