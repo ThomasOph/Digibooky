@@ -1,6 +1,7 @@
 package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class BookUpdateDto {
     private final String title;
