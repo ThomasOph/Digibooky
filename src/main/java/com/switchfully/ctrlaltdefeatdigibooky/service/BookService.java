@@ -7,11 +7,11 @@ import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ public class BookService {
     private final RentalService rentalService;
 
 
-    @Autowired
+
     public BookService(BookRepository bookRepository,
                        UserService userService,
                        @Lazy RentalService rentalService) {

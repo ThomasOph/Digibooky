@@ -1,22 +1,16 @@
 package com.switchfully.ctrlaltdefeatdigibooky.service;
 
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookCreateDto;
-
 import com.switchfully.ctrlaltdefeatdigibooky.dto.BookDto;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.BookMapper;
-import com.switchfully.ctrlaltdefeatdigibooky.mappers.RentalMapper;
-import com.switchfully.ctrlaltdefeatdigibooky.mappers.UserMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.*;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.BookRepository;
-import com.switchfully.ctrlaltdefeatdigibooky.repository.FineRepository;
-import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
-import com.switchfully.ctrlaltdefeatdigibooky.repository.UserRepository;
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Comparator;
 import java.util.List;

@@ -7,6 +7,7 @@ import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -59,5 +60,4 @@ public class BookController {
                                    @RequestHeader(value = "uuid", required = false) String uuid) {
         bookService.updateBook(bookDto, isbn, uuid);
     }
-
 }

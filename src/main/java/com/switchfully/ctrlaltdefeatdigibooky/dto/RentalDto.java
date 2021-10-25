@@ -1,8 +1,5 @@
 package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 public class RentalDto {
     private final String rentalId;
     private final String userId;

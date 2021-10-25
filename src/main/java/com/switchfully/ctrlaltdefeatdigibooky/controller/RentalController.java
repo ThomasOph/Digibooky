@@ -1,7 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.controller;
 
 import com.switchfully.ctrlaltdefeatdigibooky.dto.RentalDto;
-import com.switchfully.ctrlaltdefeatdigibooky.model.Rental;
 import com.switchfully.ctrlaltdefeatdigibooky.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,39 +14,40 @@ import java.util.List;
 @RestController
 public class RentalController {
 
-	private final RentalService rentalService;
+    private final RentalService rentalService;
 
-	@Autowired
-	public RentalController(RentalService rentalService) {
-		this.rentalService = rentalService;
-	}
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path="/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<RentalDto> getRentalsFromMemberId(@PathVariable String memberId){
-		List<RentalDto> rentalsOfMember = rentalService.getRentalsFromMember(memberId);
-		if (rentalsOfMember.size() == 0) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member not found!");
-		return rentalsOfMember;
-	}
+    @Autowired
+    public RentalController(RentalService rentalService) {
+        this.rentalService = rentalService;
+    }
 
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping(path = "return/{rentalId}", produces = MediaType.TEXT_PLAIN_VALUE)
-	public String getRentalInformation(@PathVariable("rentalId") String rentalId){
-		return rentalService.returnRental(rentalId);
-	}
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(path = "/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RentalDto> getRentalsFromMemberId(@PathVariable String memberId) {
+        List<RentalDto> rentalsOfMember = rentalService.getRentalsFromMember(memberId);
+        if (rentalsOfMember.size() == 0) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member not found!");
+        return rentalsOfMember;
+    }
 
-	@ResponseStatus(HttpStatus.CREATED)
-	@GetMapping(path = "rent/{isbn}", produces =
-			  MediaType.APPLICATION_JSON_VALUE)
-	public RentalDto getRentalInformation( @PathVariable("isbn") String isbn,
-	                                       @RequestHeader(value = "uuid") String uuid){
-		return rentalService.rent(uuid, isbn);
-	}
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(path = "return/{rentalId}", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getRentalInformation(@PathVariable("rentalId") String rentalId) {
+        return rentalService.returnRental(rentalId);
+    }
 
-	@GetMapping(path = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
-	public List<RentalDto> getAllRentalsOverdue(@RequestHeader(value = "uuid",
-			  required = false) String uuid){
-		return rentalService.getAllRentalsOverdue(uuid);
-	}
+    @ResponseStatus(HttpStatus.CREATED)
+    @GetMapping(path = "rent/{isbn}", produces =
+            MediaType.APPLICATION_JSON_VALUE)
+    public RentalDto getRentalInformation(@PathVariable("isbn") String isbn,
+                                          @RequestHeader(value = "uuid") String uuid) {
+        return rentalService.rent(uuid, isbn);
+    }
+
+    @GetMapping(path = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<RentalDto> getAllRentalsOverdue(@RequestHeader(value = "uuid",
+            required = false) String uuid) {
+        return rentalService.getAllRentalsOverdue(uuid);
+    }
 
 }
