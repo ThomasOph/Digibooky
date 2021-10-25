@@ -108,6 +108,9 @@ public class BookService {
         if (newBookDto.getCopies() < 0)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The number of copies cannot be negative.");
 
+        if (bookRepository.getBookRepository().containsKey(newBookDto.getIsbn()))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This book already exists. You should update the book.");
+
         bookRepository.addBook(BookMapper.toBook(newBookDto));
     }
 
