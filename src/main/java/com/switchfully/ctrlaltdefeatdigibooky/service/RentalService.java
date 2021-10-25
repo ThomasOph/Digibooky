@@ -10,6 +10,7 @@ import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -55,5 +56,23 @@ public class RentalService {
 				  .filter(rental -> rental.getIsbn().equals(isbn))
 				  .map(rental -> userService.getUserDetails(rental.getUserId()))
 				  .toList();
+	}
+	public String returnRental(String rentalId){
+		Rental toReturn = getRentalById(rentalId);
+		if (toReturn == null) return "This rentalId was not found in our " +
+				  "library";
+
+		String messageBookReturnDate =
+				  toReturn.getDateRented().plusWeeks(3).isAfter(LocalDate.now()) ?
+						    "Your book is on time" : "This book is late";
+
+		rentalRepository.getRentals().remove(toReturn);
+		return messageBookReturnDate;
+
+	}
+	public Rental getRentalById(String rentalId){
+		return rentalRepository.getRentals().stream()
+				  .filter(rental -> rental.getRentalId().equals(rentalId))
+				  .findFirst().orElse(null);
 	}
 }
