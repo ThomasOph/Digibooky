@@ -16,7 +16,10 @@ public class BookRepository {
                 "John", "Doe"), "Summary 1"));
         addBook(new Book("978 0 181 16541 7", "Java Is Fun", new Author("Megan", "Fox"), "Summary 2"));
         addBook(new Book("979 0 856 45165 9", "Let's have some fun", new Author("Jane", "Doe"), "Summary 3"));
-        addBook(new Book("979 1 806 46165 3", "Nothing more than one", new Author("Logo", "Kim"), "Summary 4"));
+        addBook(new Book("979 1 806 46165 3", "Nothing is the start point", new Author("Logo", "Kim"), "Summary 4"));
+        addBook(new Book("979 1 806 46165 8", "Design Pattern", new Author("Mark", "Sim"), "Summary 5"));
+        addBook(new Book("979 1 806 46165 2", "Refactor", new Author("Sam", "Tim"), "Summary 6"));
+        addBook(new Book("979 1 806 46165 1", "Clean Code", new Author("Bart", "Jim"), "Summary 7"));
     }
 
     public Map<String, Book> getBookRepository() {
@@ -24,9 +27,6 @@ public class BookRepository {
     }
 
     public void addBook(Book book) {
-        if (bookMap.containsKey(book.getIsbn()))
-            book.setCopiesOfBook(bookMap.get(book.getIsbn()).getCopiesOfBook() + book.getCopiesOfBook());
-
         bookMap.put(book.getIsbn(), book);
     }
 
