@@ -7,6 +7,8 @@ import com.switchfully.ctrlaltdefeatdigibooky.mappers.UserMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.User;
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ import java.util.regex.Pattern;
 
 @Service
 public class UserService implements UserUtils {
+
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -33,16 +38,20 @@ public class UserService implements UserUtils {
     //TODO Need a refactor
     public UserDto saveUser(UserDtoCreateUser userCreateDto, String uuid) {
         if (!isValidEmail(userCreateDto.getEmail())) {
-            throw new IllegalArgumentException("Email is not valid");
+            logger.warn("Creating user - Email not valid");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email is not valid");
         }
         if (!isUniqueMail(userCreateDto.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            logger.warn("Creating user - Email already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
         }
         if (!isUniqueInss(userCreateDto.getUniqueID())) {
-            throw new IllegalArgumentException("uniqueID already exists");
+            logger.warn("Creating user - uniqueID already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "uniqueID already exists");
         }
         if (userCreateDto.getUserRole() == UserRole.ADMIN || userCreateDto.getUserRole() == UserRole.LIBRARIAN) {
             if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
+                logger.warn("Creating user - No authorization to create a higher user role");
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to do this.");
             }
         }
@@ -50,6 +59,7 @@ public class UserService implements UserUtils {
         User user = userMapper.getUser(userCreateDto);
         userRepository.saveUser(user);
 
+        logger.info("New user created " + userCreateDto.getUserRole());
         return userMapper.getUserDto(user);
     }
 
@@ -64,6 +74,7 @@ public class UserService implements UserUtils {
     public List<UserDto> getUsers(String uuid) {
 
         if (!isUUIDUserRole(uuid, UserRole.ADMIN)) {
+            logger.warn("User is not allowed to watch all users info");
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to see this.");
         }
 
@@ -95,6 +106,7 @@ public class UserService implements UserUtils {
 
         User user = userRepository.getUserRepository().get(uuid);
         if (user == null) {
+            logger.warn("No user found when checking for role");
             throw new UserNotFoundException();
         }
 
