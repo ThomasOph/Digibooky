@@ -2,6 +2,8 @@ package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
 
+import java.util.Objects;
+
 public class BookDto {
     private final String isbn;
     private final String title;
@@ -26,5 +28,16 @@ public class BookDto {
         return author;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(isbn, bookDto.isbn) && Objects.equals(title, bookDto.title) && Objects.equals(author, bookDto.author);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn, title, author);
+    }
 }
