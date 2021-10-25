@@ -19,6 +19,7 @@ import java.util.List;
 @Service
 public class RentalService {
 
+    public static final int RENT_OVERDUE_THRESHOLD = 3;
     private final Logger logger = LoggerFactory.getLogger(RentalService.class);
 
     private final RentalRepository rentalRepository;
@@ -82,18 +83,15 @@ public class RentalService {
             return "This rentalId was not found in our library";
         }
 
-        // TODO Fines!
-        String messageBookReturnDate =
-                isBookOverdue(toReturn.getDateRented()) ?
-                        "This book is late" : "Your book is on time";
-
         rentalRepository.getRentals().remove(toReturn);
         logger.info("Removed rental " + rentalId);
-        return messageBookReturnDate;
+
+        return isBookOverdue(toReturn.getDateRented()) ?
+                "This book is late" : "Your book is on time";
     }
 
     private boolean isBookOverdue(LocalDate rentalDate) {
-        return rentalDate.plusWeeks(3)
+        return rentalDate.plusWeeks(RENT_OVERDUE_THRESHOLD)
                 .isBefore(LocalDate.now());
     }
 
@@ -113,8 +111,7 @@ public class RentalService {
     public List<RentalDto> getAllRentalsOverdue(String uuid) {
         if (!userService.isUUIDUserRole(uuid, UserRole.LIBRARIAN)) {
             logger.warn("You are not authorized!");
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not" +
-                    " authorized!");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized!");
         }
 
         return rentalRepository.getRentals().stream()
