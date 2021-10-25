@@ -41,7 +41,7 @@ public class RentalController {
 	public RentalDto getRentalInformation( @PathVariable("isbn") String isbn,
 	                                       @RequestHeader(value = "uuid",
 			                                         required = false) String uuid){
-		return rentalService.rent(isbn, uuid);
+		return rentalService.rent(uuid, isbn);
 	}
 
 	@GetMapping(path = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)

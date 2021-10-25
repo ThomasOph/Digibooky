@@ -33,7 +33,7 @@ public class RentalService {
 		if (userService.getUser(userId) == null) throw new UserNotFoundException();
 		if (bookService.getBookByISBN(isbn) == null) throw new BookNotFoundException();
 		if (!isStillInStock(isbn)) throw new BookNotFoundException();
-		
+
 		Rental renting = new Rental(userId,isbn);
 		rentalRepository.addRental(renting);
 
@@ -44,7 +44,7 @@ public class RentalService {
 	}
 
 	private int amountOfBooksLeft(String isbn){
-		return bookService.getBooksByISBN(isbn).size();
+		return bookService.getBookByISBN(isbn).getCopiesOfBook();
 	}
 	private int amountOfRentals(String isbn){
 		return rentalRepository.getRentals().stream()
