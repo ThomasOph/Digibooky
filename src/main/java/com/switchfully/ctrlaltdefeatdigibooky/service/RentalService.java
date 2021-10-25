@@ -5,8 +5,6 @@ import com.switchfully.ctrlaltdefeatdigibooky.exceptions.BookNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.exceptions.UserNotFoundException;
 import com.switchfully.ctrlaltdefeatdigibooky.mappers.RentalMapper;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Rental;
-import com.switchfully.ctrlaltdefeatdigibooky.model.User;
-import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 import com.switchfully.ctrlaltdefeatdigibooky.repository.RentalRepository;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +72,11 @@ public class RentalService {
 		return rentalRepository.getRentals().stream()
 				  .filter(rental -> rental.getRentalId().equals(rentalId))
 				  .findFirst().orElse(null);
+	}
+	public List<RentalDto> getRentalsFromMember(String userId){
+		return rentalRepository.getRentals().stream()
+				  .filter(member -> member.getRentalId().equals(userId))
+				  .map(rentalMapper :: getRentalDto)
+				  .toList();
 	}
 }
