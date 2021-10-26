@@ -82,6 +82,10 @@ public class UserService implements UserUtils {
 
     private boolean isUniqueInss(final String uniqueID) {
 
+        if (uniqueID == null) {
+            return false;
+        }
+
         return userRepository.getUserRepository().values()
                 .stream()
                 .noneMatch(user -> user.getUniqueID().equals(uniqueID));
