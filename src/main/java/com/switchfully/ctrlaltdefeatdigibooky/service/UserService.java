@@ -94,6 +94,11 @@ public class UserService implements UserUtils {
     }
 
     private boolean isValidEmail(String email) {
+
+        if (email == null) {
+            return false;
+        }
+
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
     }
