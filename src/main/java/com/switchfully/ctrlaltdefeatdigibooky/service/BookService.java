@@ -23,6 +23,7 @@ public class BookService {
 
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
+    public static final String NO_NUMBERS_REGEX = "[^0-9.]";
     private static final String ISBN_13_REGEX_PATTERN = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
     private final BookRepository bookRepository;
     private final UserService userService;
@@ -46,7 +47,7 @@ public class BookService {
     public Book getBookByISBN(String isbn) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
-                .filter(book -> book.getIsbn().equals(isbn))
+                .filter(book -> onlyRetainNumbers(book.getIsbn()).equals(onlyRetainNumbers(isbn)))
                 .findFirst()
                 .orElse(null);
     }
@@ -54,7 +55,7 @@ public class BookService {
     public List<BookDto> getBooksByISBN(String isbn) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
-                .filter(book -> book.getIsbn().matches(searchByWildCardsWithStar(isbn)))
+                .filter(book -> onlyRetainNumbers(book.getIsbn()).matches(searchByWildCardsWithStar(onlyRetainNumbers(isbn))))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -79,11 +80,16 @@ public class BookService {
     }
 
     public BookDetailDto getBookDetails(String isbn) {
-        Book book = bookRepository.getBookRepository().get(isbn);
+        Book book = bookRepository.getBookRepository().values().stream()
+                .filter(theBook -> onlyRetainNumbers(theBook.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .findFirst()
+                .orElse(null);
+
         if (book == null) {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         }
+
         if (!book.isActive()) {
             logger.warn("The book with ISBN " + isbn + " was deleted.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was deleted.");
@@ -99,7 +105,11 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to delete books.");
         }
 
-        Book book = bookRepository.getBookRepository().get(isbn);
+        Book book = bookRepository.getBookRepository().values().stream()
+                .filter(theBook -> onlyRetainNumbers(theBook.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .findFirst()
+                .orElse(null);
+
         if (book == null) {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
@@ -156,6 +166,10 @@ public class BookService {
 
         logger.info("Updated book " + isbn);
         bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);
+    }
+
+    private String onlyRetainNumbers(String value) {
+        return value.replaceAll(NO_NUMBERS_REGEX, "");
     }
 
     private String searchByWildCardsWithStar(String input) {
