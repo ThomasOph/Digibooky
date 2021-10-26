@@ -1,5 +1,7 @@
 package com.switchfully.ctrlaltdefeatdigibooky.model;
 
+import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
+
 import javax.validation.constraints.NotNull;
 
 public class Book {
@@ -10,8 +12,8 @@ public class Book {
     private int copiesOfBook;
     private Boolean isActive;
 
-    public Book(@NotNull String isbn, String title, Author author, String summary, Integer copies, Boolean isActive) {
-        this.isbn = isbn;
+    public Book(String isbn, String title, Author author, String summary, Integer copies, Boolean isActive) {
+        this.isbn = BookService.onlyRetainNumbers(isbn);
         this.title = title;
         this.author = author;
         this.summary = summary;

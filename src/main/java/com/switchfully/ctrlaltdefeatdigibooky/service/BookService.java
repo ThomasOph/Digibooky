@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +22,7 @@ public class BookService {
 
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-    public static final String NO_NUMBERS_REGEX = "[^0-9.]";
+    public static final String NO_NUMBERS_REGEX_PATTERN = "[^0-9.]";
     private static final String ISBN_13_REGEX_PATTERN = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
     private final BookRepository bookRepository;
     private final UserService userService;
@@ -47,7 +46,7 @@ public class BookService {
     public Book getBookByISBN(String isbn) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
-                .filter(book -> onlyRetainNumbers(book.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .filter(book -> book.getIsbn().equals(onlyRetainNumbers(isbn)))
                 .findFirst()
                 .orElse(null);
     }
@@ -55,7 +54,7 @@ public class BookService {
     public List<BookDto> getBooksByISBN(String isbn) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
-                .filter(book -> onlyRetainNumbers(book.getIsbn()).matches(searchByWildCardsWithStar(onlyRetainNumbers(isbn))))
+                .filter(book -> book.getIsbn().matches(searchByWildCardsWithStar(onlyRetainNumbers(isbn))))
                 .map(BookMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -81,7 +80,7 @@ public class BookService {
 
     public BookDetailDto getBookDetails(String isbn) {
         Book book = bookRepository.getBookRepository().values().stream()
-                .filter(theBook -> onlyRetainNumbers(theBook.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
                 .findFirst()
                 .orElse(null);
 
@@ -106,7 +105,7 @@ public class BookService {
         }
 
         Book book = bookRepository.getBookRepository().values().stream()
-                .filter(theBook -> onlyRetainNumbers(theBook.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
                 .findFirst()
                 .orElse(null);
 
@@ -114,13 +113,14 @@ public class BookService {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         }
+
         if (!book.isActive()) {
             logger.warn("The book with ISBN " + isbn + " was already deleted.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " was already deleted.");
         }
 
         logger.info("Deleted book " + isbn);
-        bookRepository.deleteBook(isbn);
+        bookRepository.deleteBook(book);
     }
 
     public void addBook(BookCreateDto newBookDto, String uuid) {
@@ -144,7 +144,7 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The number of copies cannot be negative.");
         }
 
-        if (bookRepository.getBookRepository().containsKey(newBookDto.getIsbn())) {
+        if (bookRepository.getBookRepository().containsKey(onlyRetainNumbers(newBookDto.getIsbn()))) {
             logger.warn("This book already exists. You should update the book.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This book already exists. You should update the book.");
         }
@@ -160,7 +160,7 @@ public class BookService {
         }
 
         Book book = bookRepository.getBookRepository().values().stream()
-                .filter(theBook -> onlyRetainNumbers(theBook.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
                 .findFirst()
                 .orElse(null);
 
@@ -170,11 +170,11 @@ public class BookService {
         }
 
         logger.info("Updated book " + isbn);
-        bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);
+        bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), book);
     }
 
     public static String onlyRetainNumbers(String value) {
-        return value.replaceAll(NO_NUMBERS_REGEX, "");
+        return value.replaceAll(NO_NUMBERS_REGEX_PATTERN, "");
     }
 
     private String searchByWildCardsWithStar(String input) {
