@@ -82,6 +82,10 @@ public class UserService implements UserUtils {
 
     private boolean isUniqueInss(final String uniqueID) {
 
+        if (uniqueID == null) {
+            return false;
+        }
+
         return userRepository.getUserRepository().values()
                 .stream()
                 .noneMatch(user -> user.getUniqueID().equals(uniqueID));
@@ -94,6 +98,11 @@ public class UserService implements UserUtils {
     }
 
     private boolean isValidEmail(String email) {
+
+        if (email == null) {
+            return false;
+        }
+
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
     }
