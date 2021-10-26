@@ -159,7 +159,12 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update books.");
         }
 
-        if (!bookRepository.getBookRepository().containsKey(isbn)) {
+        Book book = bookRepository.getBookRepository().values().stream()
+                .filter(theBook -> onlyRetainNumbers(theBook.getIsbn()).equals(onlyRetainNumbers(isbn)))
+                .findFirst()
+                .orElse(null);
+
+        if (book == null) {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The book with ISBN " + isbn + " doesn't exist.");
         }
@@ -168,7 +173,7 @@ public class BookService {
         bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), isbn);
     }
 
-    private String onlyRetainNumbers(String value) {
+    public static String onlyRetainNumbers(String value) {
         return value.replaceAll(NO_NUMBERS_REGEX, "");
     }
 

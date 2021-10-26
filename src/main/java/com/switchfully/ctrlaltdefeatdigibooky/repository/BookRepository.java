@@ -2,6 +2,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.repository;
 
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Book;
+import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -31,15 +32,27 @@ public class BookRepository {
     }
 
     public void deleteBook(String isbn) {
-        bookMap.get(isbn).setActive(false);
-        bookMap.get(isbn).setCopiesOfBook(0);
+        Book bookToDelete = bookMap.values().stream()
+                .filter(book -> BookService.onlyRetainNumbers(book.getIsbn()).equals(BookService.onlyRetainNumbers(isbn)))
+                .findFirst().orElse(null);
+
+        if (bookToDelete != null) {
+            bookMap.get(bookToDelete.getIsbn()).setActive(false);
+            bookMap.get(bookToDelete.getIsbn()).setCopiesOfBook(0);
+        }
     }
 
     public void updateBook(Book updatedBook, String isbn) {
-        bookMap.get(isbn).setTitle(updatedBook.getTitle());
-        bookMap.get(isbn).setAuthor(updatedBook.getAuthor());
-        bookMap.get(isbn).setSummary(updatedBook.getSummary());
-        bookMap.get(isbn).setCopiesOfBook(updatedBook.getCopiesOfBook());
-        bookMap.get(isbn).setActive(updatedBook.isActive());
+        Book bookToUpdate = bookMap.values().stream()
+                .filter(book -> BookService.onlyRetainNumbers(book.getIsbn()).equals(BookService.onlyRetainNumbers(isbn)))
+                .findFirst().orElse(null);
+
+        if (bookToUpdate != null) {
+            bookMap.get(bookToUpdate.getIsbn()).setTitle(updatedBook.getTitle());
+            bookMap.get(bookToUpdate.getIsbn()).setAuthor(updatedBook.getAuthor());
+            bookMap.get(bookToUpdate.getIsbn()).setSummary(updatedBook.getSummary());
+            bookMap.get(bookToUpdate.getIsbn()).setCopiesOfBook(updatedBook.getCopiesOfBook());
+            bookMap.get(bookToUpdate.getIsbn()).setActive(updatedBook.isActive());
+        }
     }
 }
