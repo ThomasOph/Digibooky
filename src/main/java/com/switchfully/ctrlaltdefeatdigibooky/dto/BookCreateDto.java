@@ -1,10 +1,6 @@
 package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 public class BookCreateDto {
     private final String isbn;
