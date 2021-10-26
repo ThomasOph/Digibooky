@@ -24,14 +24,14 @@ public class UserController {
     //GET ALL (Informational)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getUsers(@RequestHeader(value = "Uuid", required = false) String uuid) {
+    public List<UserDto> getUsers(@RequestHeader(value = "uuid", required = false) String uuid) {
         return userService.getUsers(uuid);
     }
 
     //POST
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public UserDto createUser(@RequestBody UserDtoCreateUser userDto, @RequestHeader(value = "Uuid", required = false) String uuid) {
+    public UserDto createUser(@RequestBody UserDtoCreateUser userDto, @RequestHeader(value = "uuid", required = false) String uuid) {
         return userService.saveUser(userDto, uuid);
     }
 }
