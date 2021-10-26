@@ -15,10 +15,10 @@ public class RentalRepository {
         this.rentals = new ArrayList<>();
         rentals.add(new Rental("TestID", "979 0 856 45165 9",
                 LocalDate.now().minusWeeks(3)));
-        rentals.add(new Rental("TheLibrarian", "979 0 856 45165 9",
+        rentals.add(new Rental("ThomasID", "979 1 806 46165 3",
                 LocalDate.now().minusWeeks(4)));
         rentals.add(new Rental("TheLibrarian", "979 0 856 45165 9",
-                LocalDate.now().minusWeeks(42)));
+                LocalDate.now().minusWeeks(6)));
     }
 
     public void addRental(Rental rental) {

@@ -13,7 +13,7 @@ public class UserRepository {
 
     public UserRepository() {
         userRepository = new HashMap<>();
-        userRepository.put("TestID", new User(UserRole.MEMBER, "TestID", "Mail@mail.com", "Thomas", "Opheide", "Street 1", "20", "3560", "Lummen"));
+        userRepository.put("ThomasID", new User(UserRole.MEMBER, "TestID", "Thomas@mail.com", "Thomas", "Opheide", "Street 1", "20", "3560", "Lummen"));
         userRepository.put("TheAdmin", new User(UserRole.ADMIN, "TheAdmin", "Admin@mail.com", "Wouter", "Www", "Street 5", "20", "9000", "Gent"));
         userRepository.put("TheLibrarian", new User(UserRole.LIBRARIAN, "TheLibrarian", "librarian@gmail.com", "Hans", "Reygaert", "Street 58", "22", "9160", "Lokeren"));
     }
