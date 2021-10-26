@@ -35,7 +35,6 @@ public class UserService implements UserUtils {
         this.userMapper = userMapper;
     }
 
-    //TODO Need a refactor
     public UserDto saveUser(UserDtoCreateUser userCreateDto, String uuid) {
         if (!isValidEmail(userCreateDto.getEmail())) {
             logger.warn("Creating user - Email not valid");
