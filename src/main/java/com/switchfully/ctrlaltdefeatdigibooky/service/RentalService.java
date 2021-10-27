@@ -36,6 +36,7 @@ public class RentalService {
     }
 
     public RentalDto rent(String userId, String isbn) {
+        isbn = BookService.onlyRetainNumbers(isbn);
         if (userService.getUser(userId) == null) {
             logger.warn("User not found when trying to rent a book");
             throw new UserNotFoundException();
