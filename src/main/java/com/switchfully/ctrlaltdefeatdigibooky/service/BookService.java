@@ -23,7 +23,7 @@ public class BookService {
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
     public static final String NO_NUMBERS_REGEX_PATTERN = "[^0-9.]";
-    private static final String ISBN_13_REGEX_PATTERN = "^(978|979)([0-9]{10})$";
+    private static final String ISBN_13_REGEX_PATTERN = "^(978|979)([0-9]{10})";
     private final BookRepository bookRepository;
     private final UserService userService;
     private final RentalService rentalService;
