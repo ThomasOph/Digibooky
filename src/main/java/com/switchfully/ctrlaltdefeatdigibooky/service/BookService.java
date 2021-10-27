@@ -23,7 +23,7 @@ public class BookService {
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
     public static final String NO_NUMBERS_REGEX_PATTERN = "[^0-9.]";
-    private static final String ISBN_13_REGEX_PATTERN = "^(?:ISBN(?:-13)?:? )?(?=[0-9]{13}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)97[89][- ]?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9]$";
+    private static final String ISBN_13_REGEX_PATTERN = "^(978|979)([0-9]{10})$";
     private final BookRepository bookRepository;
     private final UserService userService;
     private final RentalService rentalService;
@@ -47,6 +47,13 @@ public class BookService {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
                 .filter(book -> book.getIsbn().equals(onlyRetainNumbers(isbn)))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Book getFromDatabase(String isbn) {
+        return bookRepository.getBookRepository().values().stream()
+                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
                 .findFirst()
                 .orElse(null);
     }
@@ -79,10 +86,8 @@ public class BookService {
     }
 
     public BookDetailDto getBookDetails(String isbn) {
-        Book book = bookRepository.getBookRepository().values().stream()
-                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
-                .findFirst()
-                .orElse(null);
+
+        Book book = getFromDatabase(isbn);
 
         if (book == null) {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
@@ -104,10 +109,7 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to delete books.");
         }
 
-        Book book = bookRepository.getBookRepository().values().stream()
-                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
-                .findFirst()
-                .orElse(null);
+        Book book = getFromDatabase(isbn);
 
         if (book == null) {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
@@ -159,10 +161,7 @@ public class BookService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update books.");
         }
 
-        Book book = bookRepository.getBookRepository().values().stream()
-                .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
-                .findFirst()
-                .orElse(null);
+        Book book = getFromDatabase(isbn);
 
         if (book == null) {
             logger.warn("The book with ISBN " + isbn + " doesn't exist.");
@@ -182,7 +181,7 @@ public class BookService {
     }
 
     private boolean isValidISBN(String isbn) {
-        return isbn.matches(ISBN_13_REGEX_PATTERN);
+        return onlyRetainNumbers(isbn).matches(ISBN_13_REGEX_PATTERN);
     }
 
     private boolean isMissingInput(BookCreateDto bookDto) {
