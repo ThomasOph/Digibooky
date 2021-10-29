@@ -20,7 +20,7 @@ public class Author {
         return lastName;
     }
 
-    @JsonIgnore
+    @JsonIgnore //CODEREVIEW see remark about AuthorDto
     public String getFullName() {
         return firstName + " " + lastName;
     }

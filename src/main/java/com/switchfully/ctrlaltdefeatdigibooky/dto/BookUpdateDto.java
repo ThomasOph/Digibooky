@@ -4,6 +4,7 @@ import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
 
 public class BookUpdateDto {
     private final String title;
+    // CODEREVIEW you should be creating an AuthorDto class to use here
     private final Author author;
     private final String summary;
     private final Integer copies;

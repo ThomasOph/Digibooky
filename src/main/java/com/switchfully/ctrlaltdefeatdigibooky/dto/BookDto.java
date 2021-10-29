@@ -7,6 +7,7 @@ import java.util.Objects;
 public class BookDto {
     private final String isbn;
     private final String title;
+    // CODEREVIEW you should be creating an AuthorDto class to use here
     private final Author author;
 
 

@@ -2,8 +2,6 @@ package com.switchfully.ctrlaltdefeatdigibooky.model;
 
 import com.switchfully.ctrlaltdefeatdigibooky.service.BookService;
 
-import javax.validation.constraints.NotNull;
-
 public class Book {
     private final String isbn;
     private String title;
@@ -21,7 +19,10 @@ public class Book {
         this.isActive = isActive == null || isActive;
     }
 
+    // CODEREVIEW avoid constructor overloading
+    // consider static constructors, builders or simply using only the one constructor
     public Book(String isbn, String title, Author author, String summary) {
+        // CODEREVIEW what's going on here: you're ignoring the parameter summary
         this(isbn, title, author, "", null, null);
     }
 

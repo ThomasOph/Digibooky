@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class RentalService {
 
-    public static final int RENT_OVERDUE_THRESHOLD = 3;
+    public static final int RENT_OVERDUE_THRESHOLD = 3; // CODEREVIEW 3 what? 3 monkeys?
     private final Logger logger = LoggerFactory.getLogger(RentalService.class);
 
     private final RentalRepository rentalRepository;
@@ -43,7 +43,7 @@ public class RentalService {
         }
         if (bookService.getBookByISBN(isbn) == null) {
             logger.warn("User tried to look for ISBN " + isbn + ", but none found.");
-            throw new BookNotFoundException();
+            throw new BookNotFoundException(); // CODEREVIEW your user won't see the difference between this problem and the one on line 50
         }
         if (!isStillInStock(isbn)) {
             logger.warn("User tried to rent a book that's not in stock anymore.");
@@ -71,6 +71,7 @@ public class RentalService {
                 .toList().size();
     }
 
+    // CODEREVIEW I think you forget your retainOnlyNumbers() here
     public List<String> getUsersRentingBook(String isbn) {
         return rentalRepository.getRentals().stream()
                 .filter(rental -> rental.getIsbn().equals(isbn))

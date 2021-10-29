@@ -22,6 +22,9 @@ public class BookRepository {
         addBook(new Book("9791806461651", "Clean Code", new Author("Bart", "Jim"), "Summary 7"));
     }
 
+    // CODEREVIEW exposing your inner collection is never a good idea
+    // you have to at the very least wrap it in an immutableCollection
+    // same remark for all repositories
     public Map<String, Book> getBookRepository() {
         return bookMap;
     }
@@ -35,6 +38,8 @@ public class BookRepository {
         bookMap.get(bookToDelete.getIsbn()).setCopiesOfBook(0);
     }
 
+    // CODEREVIEW a bit superfluous to have both arguments
+    // see comment in BookService.updateBook too
     public void updateBook(Book updatedBook, Book bookToUpdate) {
         bookMap.get(bookToUpdate.getIsbn()).setTitle(updatedBook.getTitle());
         bookMap.get(bookToUpdate.getIsbn()).setAuthor(updatedBook.getAuthor());
