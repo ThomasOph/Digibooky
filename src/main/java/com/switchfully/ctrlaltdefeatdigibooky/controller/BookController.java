@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "books")
+// CODEREVIEW exemplary rest design
 public class BookController {
     private final BookService bookService;
 
@@ -41,6 +42,7 @@ public class BookController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public void add(@RequestBody BookCreateDto bookDto,
+                    // CODEREVIEW good that it's in header. The naming is not very informative though.authorizedUserId tells us much more about what is going on
                     @RequestHeader(value = "uuid", required = false) String uuid) {
         bookService.addBook(bookDto, uuid);
     }

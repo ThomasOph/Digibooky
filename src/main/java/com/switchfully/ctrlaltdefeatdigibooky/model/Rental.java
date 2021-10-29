@@ -14,6 +14,8 @@ public class Rental {
         this(userId, isbn, LocalDate.now());
     }
 
+    // CODEREVIEW overloaded constructors aren't fun
+    // consider introducing static constructors
     public Rental(String userId, String isbn, LocalDate dateRented) {
         this.rentalId = UUID.randomUUID().toString();
         this.userId = userId;

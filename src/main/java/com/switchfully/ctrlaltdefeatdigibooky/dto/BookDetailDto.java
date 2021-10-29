@@ -4,9 +4,11 @@ import com.switchfully.ctrlaltdefeatdigibooky.model.Author;
 
 import java.util.List;
 
+// CODEREVIEW why have 2 Dtos: BookDetailDto and BookDto?
 public class BookDetailDto {
     private final String isbn;
     private final String title;
+    // CODEREVIEW you should be creating an AuthorDto class to use here
     private final Author author;
     private final String summary;
     private final Integer copiesOfBook;

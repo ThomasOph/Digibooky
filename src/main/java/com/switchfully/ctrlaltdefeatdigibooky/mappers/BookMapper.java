@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+// CODEREVIEW annotated as @Service but methods are static
+// different strategies in different Mappers: choose one and apply it everywhere
 public class BookMapper {
 
     public static List<BookDto> toDto(List<Book> bookList) {
@@ -21,6 +23,7 @@ public class BookMapper {
         return new BookDto(book.getIsbn(), book.getTitle(), book.getAuthor());
     }
 
+    // CODEREVIEW nitpick mode: inconsistent formatting of your code
     public static BookDetailDto toDetailDto(Book book,
                                             List<String> usersRenting) {
         return new BookDetailDto(book.getIsbn(), book.getTitle(),

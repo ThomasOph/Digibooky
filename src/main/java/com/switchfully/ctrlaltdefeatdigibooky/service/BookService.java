@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+// CODEREVIEW in general this class is very verbose
 public class BookService {
 
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
@@ -30,13 +31,15 @@ public class BookService {
 
     public BookService(BookRepository bookRepository,
                        UserService userService,
-                       @Lazy RentalService rentalService) {
+                       @Lazy RentalService rentalService) { // CODEREVIEW why mark this one field as lazy ?
         this.bookRepository = bookRepository;
         this.userService = userService;
         this.rentalService = rentalService;
     }
 
     public List<BookDto> getAllBooks() {
+        // CODEREVIEW inconsistent: sometimes you make a list of books and give that list to the mapper to map
+        // sometimes you are streaming on your books and give them to the mapper one by one
         return BookMapper.toDto(bookRepository.getBookRepository().values().
                 stream().
                 filter(Book::isActive)
@@ -44,6 +47,7 @@ public class BookService {
     }
 
     public Book getBookByISBN(String isbn) {
+        // CODEREVIEW books are stored in a map by isbn
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
                 .filter(book -> book.getIsbn().equals(onlyRetainNumbers(isbn)))
@@ -51,6 +55,7 @@ public class BookService {
                 .orElse(null);
     }
 
+    // CODEREVIEW should be private
     public Book getFromDatabase(String isbn) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(theBook -> theBook.getIsbn().equals(onlyRetainNumbers(isbn)))
@@ -58,6 +63,7 @@ public class BookService {
                 .orElse(null);
     }
 
+    // CODEREVIEW the next three methods are very similar
     public List<BookDto> getBooksByISBN(String isbn) {
         return bookRepository.getBookRepository().values().stream()
                 .filter(Book::isActive)
@@ -169,9 +175,13 @@ public class BookService {
         }
 
         logger.info("Updated book " + isbn);
+        // CODEREVIEW a bit of a weird construction here, forcing you to create a book instance without an isbn
+        // it would have been more conventional to just call the various setters of book here
         bookRepository.updateBook(BookMapper.toBook(bookDtoUpdated), book);
     }
 
+    // CODEREVIEW this method is used a bit all over now
+    // there are several strategies to handle this
     public static String onlyRetainNumbers(String value) {
         return value.replaceAll(NO_NUMBERS_REGEX_PATTERN, "");
     }

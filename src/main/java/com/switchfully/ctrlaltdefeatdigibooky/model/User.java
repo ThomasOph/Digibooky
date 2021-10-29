@@ -11,6 +11,7 @@ public class User {
     private String postalCode;
     private final String city;
 
+    // CODEREVIEW Strings galore. Consider a builder, or a bit more structure (eg introducing an Address class)
     public User(final UserRole userRole, final String uniqueID, final String email,
                 final String firstName, final String lastName,
                 final String streetName, final String streetNumber,
@@ -26,6 +27,7 @@ public class User {
         this.city = city;
     }
 
+    // CODEREVIEW unused constructor
     public User(UserRole userRole, String uniqueID, String email,
                 String lastName, String city) {
         this.userRole = userRole;

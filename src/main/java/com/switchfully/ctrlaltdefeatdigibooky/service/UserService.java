@@ -62,6 +62,7 @@ public class UserService implements UserUtils {
         return userMapper.getUserDto(user);
     }
 
+    // CODEREVIEW encapsulate this information in the method name instead of as a comment
     //READ ONE
     public UserDto getUser(String uuid) {
         return userMapper.getUserDto(
@@ -69,6 +70,7 @@ public class UserService implements UserUtils {
         );
     }
 
+    // CODEREVIEW encapsulate this information in the method name instead of as a comment
     //READ MANY
     public List<UserDto> getUsers(String uuid) {
 

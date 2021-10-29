@@ -2,6 +2,7 @@ package com.switchfully.ctrlaltdefeatdigibooky.dto;
 
 import com.switchfully.ctrlaltdefeatdigibooky.model.UserRole;
 
+// CODEREVIEW CreateUserDto would be a more conventional name
 public class UserDtoCreateUser {
     private final UserRole userRole;
     private final String uniqueID;
@@ -13,6 +14,7 @@ public class UserDtoCreateUser {
     private final String postalCode;
     private final String city;
 
+    // CODEREVIEW looooooots of Strings. Have you considered using the Builder pattern?
     public UserDtoCreateUser(final String uniqueID,
                              final String email,
                              final String firstName, final String lastName,

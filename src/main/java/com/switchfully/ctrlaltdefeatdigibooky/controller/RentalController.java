@@ -25,12 +25,14 @@ public class RentalController {
     @GetMapping(path = "/{memberId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RentalDto> getRentalsFromMemberId(@PathVariable String memberId) {
         List<RentalDto> rentalsOfMember = rentalService.getRentalsFromMember(memberId);
+        // CODEREVIEW this does not make sense: what if a member has no rentals?
         if (rentalsOfMember.size() == 0) throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member not found!");
         return rentalsOfMember;
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "return/{rentalId}", produces = MediaType.TEXT_PLAIN_VALUE)
+    // CODEREVIEW your method name does not make sense here
     public String getRentalInformation(@PathVariable("rentalId") String rentalId) {
         return rentalService.returnRental(rentalId);
     }
@@ -38,6 +40,7 @@ public class RentalController {
     @ResponseStatus(HttpStatus.CREATED)
     @GetMapping(path = "rent/{isbn}", produces =
             MediaType.APPLICATION_JSON_VALUE)
+    // CODEREVIEW your method name does not make sense here
     public RentalDto getRentalInformation(@PathVariable("isbn") String isbn,
                                           @RequestHeader(value = "uuid") String uuid) {
         return rentalService.rent(uuid, isbn);
@@ -45,6 +48,7 @@ public class RentalController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(path = "/overdue", produces = MediaType.APPLICATION_JSON_VALUE)
+    // CODEREVIEW bit strange that you mark this request header as optional
     public List<RentalDto> getAllRentalsOverdue(@RequestHeader(value = "uuid",
             required = false) String uuid) {
         return rentalService.getAllRentalsOverdue(uuid);
